@@ -1,0 +1,54 @@
+{
+  "name": "backup-front-end-showmesaudi",
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {
+    "@testing-library/jest-dom": "^4.2.4",
+    "@testing-library/react": "^9.3.2",
+    "@testing-library/user-event": "^7.1.2",
+    "axios": "^0.19.2",
+    "bootstrap": "^4.4.1",
+    "bulma": "^0.8.0",
+    "core-js": "^3.6.4",
+    "firebase": "^7.8.0",
+    "json-web-token": "^3.2.0",
+    "jsonwebtoken": "^8.5.1",
+    "jwt-decode": "^2.2.0",
+    "jwt-js-decode": "^1.4.1",
+    "mdbreact": "^4.25.0",
+    "rc-datepicker": "^5.0.15",
+    "react": "^16.12.0",
+    "react-alert": "^6.0.0",
+    "react-bootstrap": "^1.0.0-beta.16",
+    "react-datepicker": "^2.11.0",
+    "react-dom": "^16.12.0",
+    "react-phone-input-2": "^2.11.0",
+    "react-phone-number-input": "^3.0.15",
+    "react-rater": "^5.1.1",
+    "react-router-dom": "^5.1.2",
+    "react-scripts": "3.3.1",
+    "reactstrap": "^8.4.0",
+    "tsutils": "^3.17.1"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject"
+  },
+  "eslintConfig": {
+    "extends": "react-app"
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  }
+}

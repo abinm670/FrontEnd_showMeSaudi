@@ -1,0 +1,392 @@
+
+.navDark {
+  background: rgba(0, 0, 0, 0.6);
+  display: flex;
+} 
+
+.Navbar{
+  display:flex;
+}
+
+.NavLink{
+  color: white;
+}
+.NavJed{
+  color: white;
+}
+
+
+
+
+.footer{
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  height: 25px;
+  background-color:rgba(0, 0,0, 0.6);
+  color: white;
+  text-align: center;
+}
+
+.h12 {
+  padding: 1.5rem 2.5rem;
+  background-image: linear-gradient(0deg, #ffffff 0%, #e7e7e7 100%);
+  margin: 0 0 2rem 0;
+  font-size: 1.5rem;
+  color: #41454d;
+  cursor: pointer;
+  font-size: 40px;;
+}
+
+.card {
+  margin: 1rem;
+  background: white;
+  box-shadow: 2px 4px 25px rgba(0, 0, 0, .1);
+  border-radius: 12px;
+  overflow: hidden;
+  font-family: "Times";
+  color: #215c6e;
+  font-size: 18px;
+  transition: all .2s linear;
+  text-align: center;
+}
+
+.cardHov:hover{
+  background-color: rgba(255, 255, 255, 0.5);
+}
+
+
+/*********************************
+7. Contact
+*********************************/
+
+.ContainerHomeSearch {
+  position: relative;
+  text-align: center;
+  color: white;
+}
+.ContainerHomeCity{
+  display: flex;
+  justify-content: space-around;
+  justify-content: center;
+}
+
+
+.searchCont{ 
+  display: flex;
+  flex-direction: column;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+
+}
+
+.HomeText{
+  font-weight: 1000;
+  font-size:60px;
+  text-shadow: red 1px 0 10px;
+}
+.search{
+  justify-content: center;
+  
+}
+.input-group.md-form.form-sm.form-2 input.red-border {
+  border: 1px solid #ef9a9a;
+  background-color: #ffffff;
+}
+
+
+
+/* 
+.HomeImg{
+  opacity: 0.5;
+  filter: alpha(opacity=50); 
+}
+ */
+
+ .form-inline{
+   display: flex;
+   justify-content: center;
+ }
+.contact
+{
+	padding-top: 107px;
+	padding-bottom: 120px;
+}
+.contact_title
+{
+	font-size: 40px;
+	font-weight: 400;
+	color: #131a2f;
+}
+.contact_subtitle
+{
+	font-size: 16px;
+	text-transform: uppercase;
+	color: #7d8293;
+	margin-top: 10px;
+}
+.contact_content
+{
+	margin-top: 74px;
+}
+.contact_text p:last-of-type
+{
+	margin-bottom: 0px;
+}
+.contact_info
+{
+	margin-top: 75px;
+}
+.contact_info_box
+{
+	display: inline-block;
+	width: 34px;
+	height: 34px;
+	line-height: 34px;
+	font-size: 16px;
+	font-weight: 500;
+	color: #FFFFFF;
+	text-align: center;
+	background: #fe3c52;
+	font-style: italic;
+}
+.contact_info_container
+{
+	display: inline-block;
+	vertical-align: top;
+	margin-top: -4px;
+	padding-left: 23px;
+	max-width: 310px;
+}
+.contact_info_content ul li
+{
+	font-size: 14px;
+	color: #131a2f;
+	font-weight: 500;
+	margin-bottom: 18px;
+}
+.contact_info_social
+{
+	margin-top: 46px;
+	margin-left: -10px;
+}
+.contact_info_social ul li
+{
+	display: inline-block;
+	margin-right: 3px;
+}
+.contact_info_social ul li a i
+{
+	color: #7d8293;
+	padding: 10px;
+	font-size: 17px;
+	-webkit-transition: all 200ms ease;
+	-moz-transition: all 200ms ease;
+	-ms-transition: all 200ms ease;
+	-o-transition: all 200ms ease;
+	transition: all 200ms ease;
+}
+.contact_info_social ul li a i:hover
+{
+	color: #fe3c52;
+}
+li {
+	list-style: none;
+}
+/*********************************
+7.1 Contact Form
+*********************************/
+
+.contact_form_container
+{
+	width: 100%;
+	margin-top: 7px;
+}
+.contact_input
+{
+	width: 100%;
+	height: 41px;
+	border: solid 2px #dbdbdb;
+	padding-left: 20px;
+	margin-bottom: 19px;
+	outline: none;
+}
+.contact_input::-webkit-input-placeholder,
+.contact_input_message::-webkit-input-placeholder
+{
+	font-size: 12px !important;
+	font-weight: 400 !important;
+	font-style: italic;
+	color: #7d8293 !important;
+}
+.contact_input:-moz-placeholder,
+.contact_input_message:-moz-placeholder
+{
+	font-size: 12px !important;
+	font-weight: 400 !important;
+	font-style: italic;
+	color: #7d8293 !important;
+}
+.contact_input::-moz-placeholder,
+.contact_input_message::-moz-placeholder
+{
+	font-size: 12px !important;
+	font-weight: 400 !important;
+	font-style: italic;
+	color: #7d8293 !important;
+} 
+.contact_input:-ms-input-placeholder,
+.contact_input_message:-ms-input-placeholder
+{ 
+	font-size: 12px !important;
+	font-weight: 400 !important;
+	font-style: italic;
+	color: #7d8293 !important;
+}
+.contact_input::input-placeholder,
+.contact_input_message::input-placeholder
+{
+	font-size: 12px !important;
+	font-weight: 400 !important;
+	font-style: italic;
+	color: #7d8293 !important;
+}
+.contact_input_message
+{
+	width: 100%;
+	height: 223px;
+	border: solid 2px #dbdbdb;
+	outline: none;
+	padding-top: 13px;
+	padding-left: 20px;
+}
+.contact_send_btn
+{
+	width: 161px;
+	height: 56px;
+	background: rgba(254,60,82,1);
+	border: none;
+	outline: none;
+	float: right;
+	color: #FFFFFF;
+	font-size: 16px;
+	font-weight: 500;
+	cursor: pointer;
+	margin-top: 14px;
+}
+.contact_send_btn:hover
+{
+	background: rgba(254,60,82,0.8);
+}
+
+/*********************************
+7. About
+*********************************/
+.about
+{
+	padding-bottom: 119px;
+	background: #FFFFFF;
+}
+.section_title
+{
+	padding-top: 111px;
+	line-height: 1.1;
+}
+.section_title h2
+{
+	font-weight: 300;
+	color: #131a2f;
+}
+.section_title div
+{
+	font-size: 16px;
+	font-weight: 400;
+	color: #7d8293;
+	text-transform: uppercase;
+	margin-top: 19px;
+}
+
+.about_image img
+{
+	max-width: 100%;
+}
+.background{
+	display:flex;
+	margin-left: auto;
+	margin-right: auto;
+	justify-content: center;
+	height: 450px;
+	width: 100%;
+  }
+/*********************************
+8. Milestones
+*********************************/
+
+.milestones
+{
+	padding-bottom: 120px;
+}
+
+.milestones_text p
+{
+	color: #FFFFFF;
+}
+.milestones_text p:last-of-type
+{
+	margin-bottom: 0px;
+}
+.milestones .section_title h2
+{
+	color: #FFFFFF;
+}
+
+.milestone
+{
+	text-align: center;
+}
+
+.milestone_icon img
+{
+	max-height: 100%;
+}
+/*********************************
+ SignUp 
+*********************************/
+.SignUp{
+/* margin:8%; */
+margin-left: 8%;
+margin-top: 5%;
+}
+Label {
+	font-style: italic;
+	font-weight: 500;
+	}
+.log{
+	margin-left: 5% !important;
+}
+.SpaceUp{
+  padding-top:70px ;
+  margin-top: 70px;
+  /* display: flex;
+  justify-content: center;
+  flex-direction: column; */
+}
+
+.title{
+	font-style: italic;
+	font-weight: 500;
+	text-align: center;
+}
+.Link{
+	color: #FFFFFF !important;
+}
+.color {
+	background-color:  rgb(0, 0, 68) !important;
+}
+.Cont{
+	display: flex;
+	justify-content: center;
+}
