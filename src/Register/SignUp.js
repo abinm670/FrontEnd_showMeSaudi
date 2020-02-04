@@ -32,7 +32,8 @@ class SignUp extends Component {
       send: false,
       userDate: [],
       phone: "",
-      api: "http://localhost:7000/api/newRuser"
+      country:"", 
+      api:"http://localhost:7000/api/newRuser"
     }
   }
   showInfo(e) {
@@ -207,80 +208,85 @@ class SignUp extends Component {
                     </FormGroup>
                   </Col>
 
-                </Row>
+      <Col>
+      <Button onClick ={this.onsubmitTheStateToPosted} > Submit </Button>
+      <Link to="/SignIn"><Button className='log'>Sign In</Button></Link>
+      </Col>
+    </Form>
+  </Tab>
+  <Tab eventKey="R" title="Regular User" >
+  <Form className="SignUp" onSubmit ={this.onsubmitTheStateToPosted}> 
+    <Row>
+      <Col>
+        <FormGroup className="col-md-10">
+            <Label for="First Name">First Name :</Label>
+            <Input type="text" name="firstName" id="First Name" placeholder="Enter your First Name"  onChange={this.changeTheStateForform}/>
+        </FormGroup>
+      </Col>
+      <Col>
+        <FormGroup className="col-md-10">
+            <Label for="Last Name">Last Name :</Label>
+            <Input type="text" name="lastName" id="Last Name" placeholder="Enter your Last Name" onChange={this.changeTheStateForform}/>
+        </FormGroup>
+      </Col>
+      </Row>
+      <Row>
+      <Col>
+      <FormGroup className="col-md-10">
+        <Label for="Phone Number">Phone Number: </Label>
+        <ReactPhoneInput inputExtraProps={{name: "phone",required: true,autoFocus: true}}
+          defaultCountry={"sa"} value={this.state.phone} placeholder="+966" onChange={this.handleOnChange}/>
+      </FormGroup>
+      </Col>
+      <Col>
+      <FormGroup className="col-md-10">
+        <Label for="exampleEmail">Email :</Label>
+        <Input type="email" name="email" id="exampleEmail" placeholder="with a placeholder"  onChange={this.changeTheStateForform}/>
+      </FormGroup>
+      </Col>
+      </Row>
+      <Row>
+      <Col>
+      <FormGroup className="col-md-10">
+        <Label for="examplePassword">Password :</Label>
+        <Input type="password" name="password" id="examplePassword" placeholder="password placeholder" onChange={this.changeTheStateForform} />
+      </FormGroup>
+      </Col>
 
-                <Col>
-                  <Button onClick={this.onsubmitTheStateToPosted} > Submit </Button>
-                  <Link to="/SignIn"><Button className='log'>Sign In</Button></Link>
-                </Col>
-              </Form>
-            </Tab>
-            <Tab eventKey="R" title="Regular User" >
-              <Form className="SignUp" onSubmit={this.onsubmitTheStateToPosted}>
-                <Row>
-                  <Col>
-                    <FormGroup className="col-md-10">
-                      <Label for="First Name">First Name :</Label>
-                      <Input type="text" name="firstName" id="First Name" placeholder="Enter your First Name" onChange={this.changeTheStateForform} />
-                    </FormGroup>
-                  </Col>
-                  <Col>
-                    <FormGroup className="col-md-10">
-                      <Label for="Last Name">Last Name :</Label>
-                      <Input type="text" name="lastName" id="Last Name" placeholder="Enter your Last Name" onChange={this.changeTheStateForform} />
-                    </FormGroup>
-                  </Col>
-                </Row>
-                <Row>
-                  <Col>
-                    <FormGroup className="col-md-10">
-                      <Label for="Phone Number">Phone Number: </Label>
-                      <ReactPhoneInput inputExtraProps={{ name: "phone", required: true, autoFocus: true }}
-                        defaultCountry={"sa"} value={this.state.phone} placeholder="+966" onChange={this.handleOnChange} />
-                    </FormGroup>
-                  </Col>
-                  <Col>
-                    <FormGroup className="col-md-10">
-                      <Label for="exampleEmail">Email :</Label>
-                      <Input type="email" name="email" id="exampleEmail" placeholder="with a placeholder" onChange={this.changeTheStateForform} />
-                    </FormGroup>
-                  </Col>
-                </Row>
-                <Row>
-                  <Col>
-                    <FormGroup className="col-md-10">
-                      <Label for="examplePassword">Password :</Label>
-                      <Input type="password" name="password" id="examplePassword" placeholder="password placeholder" onChange={this.changeTheStateForform} />
-                    </FormGroup>
-                  </Col>
-                  <Col>
-                    <FormGroup className="col-md-10">
-                      <Label for="examplePassword">Confirm Password :</Label>
-                      <Input type="password" name="password_confirmation" id="password_confirmation" onChange={this.changeTheStateForform} />
-                    </FormGroup>
-                  </Col>
-                </Row>
-                <FormGroup>
-                  <Col>
-                    <Button onClick={this.onsubmitTheStateToPosted} > Submit </Button>
-                    <Link to="/SignIn"><Button className='log'>Sign In</Button></Link>
-                  </Col>
-                </FormGroup>
-              </Form>
-            </Tab>
-          </Tabs>
+      {/* <Col>
+        <FormGroup className="col-md-10">
+            <Label for="Last Name">Country :</Label>
+            <Input type="text" name="country" value={this.state.country} id="Last Name" placeholder="Enter your Last Country" onChange={this.handleOnChange}/>
+        </FormGroup>
+      </Col> */}
 
-        </div>
-      );
-    }
-    else {
-      return (
-        // eslint-disable-next-line react/jsx-no-undef         
-        <SignIn />
-      )
-    }
-  }
-
+      {/* <Col>
+      <FormGroup className="col-md-10">
+        <Label for="examplePassword">Confirm Password :</Label>
+        <Input type="password" name="password_confirmation" id="password_confirmation" onChange={this.changeTheStateForform}/>
+      </FormGroup>
+      </Col> */}
+      </Row>
+      <FormGroup>
+      <Col>
+      <Button onClick ={this.onsubmitTheStateToPosted} > Submit </Button>
+      <Link to="/SignIn"><Button className='log'>Sign In</Button></Link>
+      </Col>
+      </FormGroup>
+      </Form> 
+  </Tab>
+</Tabs>
+ 
+    </div>
+  );
+      }
+      else{
+        return(         
+           // eslint-disable-next-line react/jsx-no-undef         
+           <SignIn />  
+        )
+      }
+}
 }
 
 export default SignUp;

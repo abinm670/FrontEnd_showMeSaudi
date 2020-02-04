@@ -4,7 +4,6 @@ import {Link} from 'react-router-dom';
 import axios from 'axios'
 import '../App.css';
 import jwt_decode from 'jwt-decode'
-
 class SignIn extends Component {
   state = {
     status: false,
@@ -13,13 +12,11 @@ class SignIn extends Component {
   tInfo(e) {
     // e.preventDefault()
     console.log(this.state.api + "this.state.api")
-
     this.setState({ api: "http://localhost:7000/api/t-login" })
   }
   rInfo(e) {
     // e.preventDefault()   
     console.log(this.state.api + "this.state.api")
-
     this.setState({ api: "http://localhost:7000/api/r-login" })
   }
   handleChange(e) {
@@ -31,16 +28,12 @@ class SignIn extends Component {
       this.rInfo(e)
     }
   }
-
   changeTheStateForform = (e) => {
-
     this.setState({
       [e.target.name]: e.target.value
     })
   }
-
   onsubmitTheStateToPosted = () => {
-
     axios.post(this.state.api, this.state)
       .then(
         (res) => {
@@ -60,7 +53,6 @@ class SignIn extends Component {
         })
       .catch(err => console.log(err))
   }
-
   render() {
     return (
       <Container className="SpaceUp">
@@ -89,7 +81,6 @@ class SignIn extends Component {
                 onChange={this.changeTheStateForform} />
             </FormGroup>
             <CustomInput type="switch" id="exampleCustomSwitch2" name="tourType" label="Tour" onChange={(e) => this.handleChange(e)} />
-
           </Col>
           <Button className="log" onClick={this.onsubmitTheStateToPosted} > Sign In</Button>{'  '}
           <Link to="/SignUp"><Button className='log'>SignUp</Button></Link>
@@ -99,5 +90,4 @@ class SignIn extends Component {
     );
   }
 }
-
 export default SignIn;

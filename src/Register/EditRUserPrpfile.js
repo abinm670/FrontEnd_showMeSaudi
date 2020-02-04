@@ -5,7 +5,6 @@ import axios from 'axios'
 import ReactPhoneInput from "react-phone-input-2";
 import jwt_decode from 'jwt-decode'
 
-
 class EditRUserPrpfile extends Component{
   constructor(props){
     super(props);
@@ -30,6 +29,7 @@ class EditRUserPrpfile extends Component{
     this.edit = this.edit.bind(this);
     this.save = this.save.bind(this);
   }
+
 
   componentDidMount() {
     this.setState({user: jwt_decode(localStorage.usertoken).user})
@@ -56,6 +56,8 @@ class EditRUserPrpfile extends Component{
         this.setState({ phone: value }, () => {
           console.log(this.state.phone);
         });}
+
+
 
   changeTheStateForform = (e)=>{
         this.setState({

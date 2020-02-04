@@ -46,6 +46,7 @@ class TourGuyProfile extends Component {
         this.save = this.save.bind(this);
         this.adding = this.adding.bind(this);
         this.saveAdding = this.saveAdding.bind(this);
+
     }
 
     //helper functions that change state
@@ -170,15 +171,15 @@ class TourGuyProfile extends Component {
 
 
 
-    handleChange = date => {
+        handleChange = date => {
         this.setState({
             startDate: date
         });
     };
 
-    addComment(c) {
-        this.setState({ comment: this.state.comment.push[c] })
-    }
+      addComment(c){
+    this.setState({comment: this.state.comment.push[c]});
+  }
 
     showRate(e) {
         if (this.state.rate / this.state.raters > 0)
@@ -277,9 +278,6 @@ class TourGuyProfile extends Component {
 
             <div className="central">
                 <h2 className="title"> Edit Profile </h2>
-                {/* add image latter  */}
-                {/* <figure><image src={this.state.image} alt="" class="img-thumbnail" /></figure> */}
-
                 <Form>
                     <Row>
                         <Col>
@@ -502,5 +500,6 @@ class TourGuyProfile extends Component {
             </div>
         )
     }
+
 }
 export default TourGuyProfile;
