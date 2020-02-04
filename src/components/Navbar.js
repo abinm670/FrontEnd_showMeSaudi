@@ -17,6 +17,7 @@ import Contact from '../containers/Contact'
 import TourGuys from '../containers/TourGuys'
 import SignIn from '../Register/SignIn'
 import About from '../containers/About'
+import Booking from '../containers/Booking'
 import SignUp from '../Register/SignUp'
 import TourGuyProfile from '../containers/TourGuyProfile'
 import Comment from '../components/Footer'
@@ -64,6 +65,7 @@ class NavbarMain extends React.Component {
           <NavbarBrand> <Link to="/About" className="NavLink">About Us</Link> </NavbarBrand>
           <NavbarBrand> <Link to="/contact" className="NavLink">Contact</Link> </NavbarBrand>
           <NavbarBrand> <Link to="/EditRUserPrpfile" className="NavLink">Edit Prpfile</Link> </NavbarBrand>
+          <NavbarBrand> <Link to="/manageBooking" className="NavLink">manage my booking</Link> </NavbarBrand>
           <NavbarBrand> <Link to="/" className="NavLink">Sign Out</Link> </NavbarBrand>
         </Container>
         </Navbar>
@@ -76,6 +78,7 @@ class NavbarMain extends React.Component {
         <Route path="/Contact" component={Contact} />
         <Route path="/SignUp" component={SignUp} />
         <Route path="/TourGuyProfile/:id" component={TourGuyProfile} />
+        <Route path="/manageBooking" component={Booking} />
         <Route path="/Comment" component={Comment} />
         <Route exact path="/TourGuys/:city" component={TourGuys} />
         {/* <Route path="/EditRUserPrpfile" component={EditRUserPrpfile} /> */}
