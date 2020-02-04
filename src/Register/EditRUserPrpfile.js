@@ -23,16 +23,16 @@ class EditRUserPrpfile extends Component{
       startDate: new Date(),
       editing:false, 
       save:false,
-      x:localStorage.getItem('usertoken'),
-      user:"",
-      userInf:this.props.match.params.id
+      //x:localStorage.getItem('usertoken'),
+      //user:"",
+      //userInf:this.props.match.params.id
     }
     this.edit = this.edit.bind(this);
     this.save = this.save.bind(this);
   }
 
   componentDidMount() {
-    this.setState({user: jwt_decode(this.state.x)})
+    this.setState({user: jwt_decode(localStorage.usertoken).user})
       }
       
       //helper functions that change state
@@ -45,7 +45,6 @@ class EditRUserPrpfile extends Component{
      
       save()
       {
-
         this.setState({editing:false});
         //call the method below to update and tarnsfer the data to the back-end  
         this.onsubmitTheStateToEdit()
@@ -66,7 +65,7 @@ class EditRUserPrpfile extends Component{
 
     // EDIT PROFILE 
 onsubmitTheStateToEdit = ()=>{
-  axios.put("http://localhost:7000/api/r-user_edit/"+this.userInf, this.state)
+  axios.put("http://localhost:7000/api/r-user_edit/"+this.state.user._id, this.state)
   .then((res) =>
   {
     
@@ -77,7 +76,7 @@ onsubmitTheStateToEdit = ()=>{
 }
 
     render(){
-      console.log("hello" ,this.state.userInfo)
+      console.log("hello" ,this.state.user)
 
         return(
       <dev>

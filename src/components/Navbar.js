@@ -1,7 +1,7 @@
 import React from "react";
-import {Navbar,NavbarBrand,Container} from "reactstrap";
+import { Navbar, NavbarBrand, Container } from "reactstrap";
 import "../App.css";
-import {BrowserRouter as Router,Route,Link, withRouter} from 'react-router-dom';
+import { BrowserRouter as Router, Route, Link, withRouter } from 'react-router-dom';
 import Home from '../containers/Home'
 import Packages from '../containers/Packages'
 import Contact from '../containers/Contact'
@@ -19,15 +19,19 @@ class NavbarMain extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      isOpen: false,
+      // isOpen: false,
       wether: '',
       icon: '',
       logedin: false
     };
   }
-
+  // jwt_decode
   componentDidMount() {
     this.showLogOut()
+    // console.log(jwt_decode(localStorage.usertoken).user.tourType)
+
+    localStorage.usertoken ? this.setState({ logedin: true, tourType: jwt_decode(localStorage.usertoken).user.tourType }) : this.setState({ logedin: false })
+    console.log(this.state.tourType)
   }
 
   logout = () => {
@@ -54,7 +58,7 @@ class NavbarMain extends React.Component {
             <NavbarBrand> <Link to="/Packages" className="NavLink">Packages</Link> </NavbarBrand>
             <NavbarBrand> <Link to="/About" className="NavLink">About Us</Link> </NavbarBrand>
             <NavbarBrand> <Link to="/contact" className="NavLink">Contact</Link> </NavbarBrand>
-    <NavbarBrand>{this.state.logedin ?  <Link to="/EditRUserPrpfile" className="NavLink">Edit Profile</Link>:"" }</NavbarBrand>
+            <NavbarBrand>{(this.state.logedin && this.state.tourType == "regUser") ? <Link to="/EditRUserPrpfile" className="NavLink">Edit Profile</Link> : ""}</NavbarBrand>
             {/* switch login and out */}
             <NavbarBrand > {this.state.logedin ? <Link to="/" className="NavLink" onClick={this.logout}>Sign Out</Link> : <Link to="/SignIn" className="NavLink">Sign In</Link>} </NavbarBrand>
           </Container>
