@@ -117,12 +117,11 @@ class TourGuyProfile  extends Component {
           this.setState({packImage: this.state.packImage.concat(res.data[i].image)} )
           this.setState({description: this.state.description.concat(res.data[i].description)})
       }
-    })``
+    })
     .catch((error) => {
       console.log(error)
     })
-
-
+  }
 onsubmitTheStateToPosted = ()=>{
 var x=localStorage.getItem('usertoken');
 var user =  jwt_decode(x)
@@ -147,7 +146,7 @@ console.log("posted")
         .catch(err => console.log(err))
       } 
     }
-  }
+  
   // Add packages 
   onsubmitTheStateToAdd = () => {
     axios.post("http://localhost:7000/api/t-users/" + this.props.match.params.id + "/packages", this.state)
@@ -177,8 +176,7 @@ onsubmitTheStateToEdit = ()=>{
   };
 
   addComment(c){
-    this.setState({comment: this.state.comment.push[c]} )
-
+    this.setState({comment: this.state.comment.push[c]});
   }
 
   showRate(e){
@@ -413,5 +411,5 @@ render()
 
   }
 
-
+}
 export default TourGuyProfile;
