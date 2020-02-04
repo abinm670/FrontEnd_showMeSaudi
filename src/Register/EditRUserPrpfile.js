@@ -59,7 +59,7 @@ onsubmitTheStateToEdit = ()=>{
         return(
       <dev>
         <br/><br/><br/><br/><br/>
-          <h2 className="title"> Edit Proile </h2>
+          <h2 className="title"> Edit Profile </h2>
           <br/><br/>
          <Form>
        <Row>
