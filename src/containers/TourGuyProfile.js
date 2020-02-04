@@ -23,22 +23,24 @@ class TourGuyProfile extends Component {
       raters: 0,
       firstName: "",
       lastName: "",
-      address: "",
-      image: "",
-      price: "",
-      AboutMe: "",
-      name: [],
-      description: [],
-      packImage: [],
-      comment: [],
-      id: this.props.match.params.id,
+
+      address:"",
+      image:"",
+      price:"",
+      AboutMe:"",
+      name:[],
+      description:[],
+      packImage:[],
+      comment: [] ,
+      id:this.props.match.params.id,
       startDate: new Date(),
-      editing: false,
-      addingPack: false,
-      save: false,
-      saveAdding: false,
-      x: localStorage.getItem('usertoken'),
-      user: ""
+      editing:false, 
+      addingPack:false, 
+      save:false,
+      saveAdding:false,
+      x:localStorage.getItem('usertoken'),
+     user:""
+
     }
     this.edit = this.edit.bind(this);
     this.save = this.save.bind(this);
@@ -46,18 +48,37 @@ class TourGuyProfile extends Component {
     this.saveAdding = this.saveAdding.bind(this);
   }
 
-  //helper functions that change state
-  edit() {
-    this.setState({ editing: true });
-    alert("now editing");
-  }
-  save() {
-    this.setState({ editing: false });
-    //call the method below to update and tarnsfer the data to the back-end  
-    this.onsubmitTheStateToEdit()
-    //just for testing 
-    alert("now saving value ");
-  }
+
+    //helper functions that change state
+    edit()
+    {
+      this.setState({editing:true});
+      alert("now editing");
+    }
+    save()
+    {
+      this.setState({editing:false});
+      //call the method below to update and tarnsfer the data to the back-end  
+      this.onsubmitTheStateToEdit()
+      //just for testing 
+      alert("now saving value ");
+    }
+
+    //helper functions that change state addingPack
+    adding()
+    {
+      this.setState({addingPack:true});
+      alert("now addingPack");
+    }
+    saveAdding()
+    {
+      this.setState({addingPack:false});
+      //call the method below to update and tarnsfer the data to the back-end  
+      this.onsubmitTheStateToAdd()
+      //just for testing 
+      alert("now saving value ");
+    }
+
 
   //helper functions that change state addingPack
   adding() {
@@ -83,95 +104,98 @@ class TourGuyProfile extends Component {
     axios.get(`http://localhost:7000/api/t-user/` + this.props.match.params.id)
       .then(response => {
         //console.log(response);
-        this.setState({ firstName: response.data.firstName })
-        this.setState({ lastName: response.data.lastName })
-        this.setState({ city: response.data.city })
-        this.setState({ image: response.data.image })
-        this.setState({ rate: response.data.rate })
-        this.setState({ price: response.data.price })
-        this.setState({ AboutMe: response.data.AboutMe })
-        this.setState({ id: response.data._id })
-      }).catch((err) => console.log("data has not been recived"));
+
+          this.setState({firstName: response.data.firstName})
+          this.setState({lastName: response.data.lastName} )
+          this.setState({city: response.data.city})
+          this.setState({image: response.data.image} )
+          this.setState({rate: response.data.rate} )
+          this.setState({price: response.data.price} )
+          this.setState({AboutMe: response.data.AboutMe} )
+          this.setState({id: response.data._id} )
+      }).catch((err)=> console.log("data has not been recived"));
 
 
-    // Comment api
-    axios.get(`http://localhost:7000/api/t-comment/` + this.props.match.params.id)
-      .then(res => {
-        this.setState({ comments: res.data })
-      })
-      .catch((error) => {
-        console.log(error)
-      })
+  // Comment api
+  axios.get(`http://localhost:7000/api/t-comment/`+this.props.match.params.id) 
+  .then(res => {
+    this.setState({comments: res.data})
+  })
+  .catch((error) => {
+    console.log(error)
+  })
 
-    //packages api
-    axios.get("http://localhost:7000/api/t-users/" + this.state.id + "/packages")
-      .then(res => {
-        console.log(res + "pack")
+  //packages
+    axios.get("http://localhost:7000/api/t-users/"+this.state.id+"/packages") 
+    .then(res => {
+      console.log(res+"pack")
 
-        for (let i in res.data) {
-          this.setState({ name: this.state.name.concat(res.data[i].name) })
-          this.setState({ packImage: this.state.packImage.concat(res.data[i].image) })
-          this.setState({ description: this.state.description.concat(res.data[i].description) })
-        }
-      })
-      .catch((error) => {
-        console.log(error)
-      })
-  }
+      for(let i in res.data){
+          this.setState({name: this.state.name.concat(res.data[i].name)})
+          this.setState({packImage: this.state.packImage.concat(res.data[i].packImage)} )
+          this.setState({description: this.state.description.concat(res.data[i].description)})
+      }
+    })
+    .catch((error) => {
+      console.log(error)
+    })
+}
 
-  onsubmitTheStateToPosted = () => {
-    var x = localStorage.getItem('usertoken');
-    var user = jwt_decode(x)
-    axios.post("http://localhost:7000/api/r-comment/" + this.state.id + "/" + user.user._id, this.state)
-      .then(res => console.log(res))
-      .catch(err => console.log(err))
-    console.log("posted")
-  }
+onsubmitTheStateToPosted = ()=>{
+var x=localStorage.getItem('usertoken');
+var user =  jwt_decode(x)
+axios.post("http://localhost:7000/api/r-comment/"+this.state.id+"/"+user.user._id,this.state)
+.then(res => console.log(res))
+.catch(err => console.log(err))
+console.log("posted")
+}
 
-  //Booking
-  onsubmitTheStateToBook = () => {
-    if (this.state.startDate == null) {
-      alert("please select date")
-    }
-    else {
-      var datetoB = this.state.startDate.toDateString();
-      axios.post("http://localhost:7000/api/r-booking/" + this.state.id + "/" + this.state.user.user._id + "/" + datetoB, this.state)
+    //Booking
+    onsubmitTheStateToBook = ()=>{ 
+      if (this.state.startDate==null){
+        alert("please select date")
+      }
+      else{
+        var datetoB=this.state.startDate.toDateString();
+        axios.post("http://localhost:7000/api/r-booking/"+this.state.id+"/"+this.state.user.user._id+"/"+datetoB,this.state)
         .then(
           (res) => {
             console.log(res)
           })
         .catch(err => console.log(err))
     }
-  }
-  // EDIT PROFILE 
-  onsubmitTheStateToEdit = () => {
-    axios.put("http://localhost:7000/api/t-user_edit/" + this.props.match.params.id, this.state)
-      .then((res) => {
-        console.log("what data do u have ", res)
-      }
-      )
-      .catch(err => console.log(err))
-  }
 
-  // Add packages 
-  onsubmitTheStateToAdd = () => {
-    axios.post("http://localhost:7000/api/t-users/" + this.props.match.params.id + "/packages", this.state)
-      .then((res) => {
-        console.log("what pack do u have ", res)
-      }
-      )
-      .catch(err => console.log(err))
-  }
-  // // EDIT Rating 
-  // ratingEdit = ()=>{
-  //   axios.put("http://localhost:7000/api/t-user_edit/"+this.state.id, this.state)
-  //   .then((res) =>
-  //   {
-  //     console.log("what data do u have ", res)
-  //   } 
-  // )
-  //   .catch(err => console.log(err))
-  // }
+// EDIT PROFILE 
+onsubmitTheStateToEdit = ()=>{
+  axios.put("http://localhost:7000/api/t-user_edit/"+this.props.match.params.id, this.state)
+  .then((res) =>
+  {
+    console.log("what data do u have ", res)
+  } 
+)
+  .catch(err => console.log(err))
+}
+
+// Add packages 
+onsubmitTheStateToAdd = ()=>{
+  axios.post("http://localhost:7000/api/t-users/"+this.props.match.params.id+"/packages", this.state)
+  .then((res) =>
+  {
+    console.log("what pack do u have ", res)
+  } 
+)
+  .catch(err => console.log(err))
+}
+// // EDIT Rating 
+// ratingEdit = ()=>{
+//   axios.put("http://localhost:7000/api/t-user_edit/"+this.state.id, this.state)
+//   .then((res) =>
+//   {
+//     console.log("what data do u have ", res)
+//   } 
+// )
+//   .catch(err => console.log(err))
+// }
 
 
   handleChange = date => {
@@ -195,57 +219,60 @@ class TourGuyProfile extends Component {
     });
   };
 
-  renderEdit() {
-    return (
 
-      <div className="central">
-        <h2 className="title"> Edit Profile </h2>
-        {/* add image latter  */}
-        {/* <figure><image src={this.state.image} alt="" class="img-thumbnail" /></figure> */}
+renderEdit()
+{
+return(
+  
+<div  className="central">
+  <h2 className="title"> Edit Profile </h2> 
+  {/* add image latter  */}
+    {/* <figure><image src={this.state.image} alt="" class="img-thumbnail" /></figure> */}
+    
+      <Form>
+      <Row>
+      <Col>
+      <FormGroup className="col-md-10">
+        <img src={d} alt="" class="img-thumbnail" />
+          <Label for="exampleFile">Change Personal Picture :</Label>
+          <CustomInput method="post" action="/upload" enctype="multipart/form-data" type="file" name="image" id="exampleFile" label="Please choose your Personal photo" onChange={this.changeTheStateForform}  />
+        
+      </FormGroup>
+      </Col>
+      </Row>
+      <Row>
+      <Col>
+        <FormGroup className="col-md-10">
+            <Label for="First Name">First Name :</Label>
+            <Input type="text" className="input" name="firstName" onChange={this.changeTheStateForform} defaultValue={this.state.firstName}/>
+        </FormGroup>
+      </Col>
+      <Col>
+        <FormGroup className="col-md-10">
+            <Label for="Last Name">Last Name :</Label>
+            <Input type="text" className="input" name="lastName" onChange={this.changeTheStateForform} defaultValue={this.state.lastName}/>
+        </FormGroup>
+      </Col>
+      </Row>
+      <Row>
+      <Col>
+      <FormGroup className="col-md-10">
+        <Label for="Phone Number">Phone Number: </Label>
+        <ReactPhoneInput inputExtraProps={{name: "phone",required: true,autoFocus: true}}
+          defaultCountry={"sa"} value={this.state.phone} placeholder="+966" onChange={this.handleOnChange}/>
+      </FormGroup>
+      </Col>
+      <Col>
+      <FormGroup className="col-md-10">
+        <Label for="examplePassword">Password :</Label>
+        <Input type="password" name="password" id="newPassword" placeholder="new password" onChange={this.changeTheStateForform} />
+      </FormGroup>
+      </Col>
+      </Row>
+      <Row>
+      <Col>
+      <FormGroup className="col-md-10">
 
-        <Form>
-          <Row>
-            <Col>
-              <FormGroup className="col-md-10">
-                <img src={d} alt="" class="img-thumbnail" />
-                <Label for="exampleFile">Change Personal Picture :</Label>
-                <CustomInput method="post" action="/upload" enctype="multipart/form-data" type="file" name="image" id="exampleFile" label="Please choose your Personal photo" onChange={this.changeTheStateForform} />
-
-              </FormGroup>
-            </Col>
-          </Row>
-          <Row>
-            <Col>
-              <FormGroup className="col-md-10">
-                <Label for="First Name">First Name :</Label>
-                <Input type="text" className="input" name="firstName" onChange={this.changeTheStateForform} defaultValue={this.state.firstName} />
-              </FormGroup>
-            </Col>
-            <Col>
-              <FormGroup className="col-md-10">
-                <Label for="Last Name">Last Name :</Label>
-                <Input type="text" className="input" name="lastName" onChange={this.changeTheStateForform} defaultValue={this.state.lastName} />
-              </FormGroup>
-            </Col>
-          </Row>
-          <Row>
-            <Col>
-              <FormGroup className="col-md-10">
-                <Label for="Phone Number">Phone Number: </Label>
-                <ReactPhoneInput inputExtraProps={{ name: "phone", required: true, autoFocus: true }}
-                  defaultCountry={"sa"} value={this.state.phone} placeholder="+966" onChange={this.handleOnChange} />
-              </FormGroup>
-            </Col>
-            <Col>
-              <FormGroup className="col-md-10">
-                <Label for="examplePassword">Password :</Label>
-                <Input type="password" name="password" id="newPassword" placeholder="new password" onChange={this.changeTheStateForform} />
-              </FormGroup>
-            </Col>
-          </Row>
-          <Row>
-            <Col>
-              <FormGroup className="col-md-10">
                 <Label for="exampleText">About Me ..</Label>
                 <Input type="textarea" className="input" name="AboutMe" onChange={this.changeTheStateForform} defaultValue={this.state.AboutMe} />
               </FormGroup>
@@ -291,6 +318,7 @@ class TourGuyProfile extends Component {
     // console.log(this.state.rate);
     //   console.log(this.state.raters);
 
+
     return (
       <div>
         <div className="TourGuyProfileCont">
@@ -334,14 +362,17 @@ class TourGuyProfile extends Component {
               {comments}
             </ul>
             <Form className="SignUp" onSubmit={this.onsubmitTheStateToPosted}>
+
               <FormGroup >
                 <Input type="textarea" name="comment" id="exampleText" placeholder="Write your comment here" onChange={this.changeTheStateForform} />
                 <Button onClick={this.onsubmitTheStateToPosted}>Add comment<img src={'https://i.postimg.cc/3NQ9Fmr5/blog.png'} width="30" height="30" /></Button>
               </FormGroup>
             </Form>
           </div>
+
         </div>
       </div>
+
 
     );
   }
@@ -371,37 +402,65 @@ class TourGuyProfile extends Component {
     );
   }
 
+  renderAdd()
+{
+return(
+<div  className="central">
+  <h2 className="title">Add Package </h2> 
+      <Form>
+      <Row>
+      <Col>
+        <FormGroup className="col-md-10">
+            <Label for="Name">Name: </Label>
+            <Input type="text" className="input" name="name" onChange={this.changeTheStateForform} defaultValue={this.state.name}/>
+        </FormGroup>
+      </Col>
+      <Col>
+        <FormGroup className="col-md-10">
+            <Label for="Description">Description: </Label>
+            <Input type="text" className="input" name="description" onChange={this.changeTheStateForform} defaultValue={this.state.description}/>
+        </FormGroup>
+      </Col>
+      </Row>
+      <Button variant="outline-warning" onClick={this.saveAdding}>Save</Button>
+        </Form>   
+</div>
+);}
+  
 
-  render() {
-    if (this.state.editing)
-      return this.renderEdit();
-    else if (this.state.addingPack)
-      return this.renderAdd();
-    else
-      return this.renderNormal();
-  }
 
-  DisplayAllPackages() {
-    return (
-      <div>
-        <div className='ContainerHomeCity'>
-          {this.state.name.map((n, index) => (
-            <div className="col mb-4">
-              <div>
-                <Card style={{ width: '15rem', margin: '2px', marginBottom: '30px' }} className="cardHov">
-                  <Card.Img variant="top" src={this.state.packImage[index]} width="250" height="250" />
-                  <Card.Body>{this.state.name[index]} &nbsp; <img src={'https://i.postimg.cc/cHtxQ60w/tour.png'} width="30" height="30" /></Card.Body>
-                  <Card.Body>
-                    <span></span>
+render()
+      {
+        if(this.state.editing)
+          return this.renderEdit();
+        else if(this.state.addingPack)
+          return this.renderAdd();
+        else
+        return this.renderNormal();
+      }
+
+  DisplayAllPackages(){
+        return(
+        <div>
+          <div className='ContainerHomeCity'>
+                { this.state.name.map((n, index) => (
+                <div className="col mb-4">
+                    <div>
+                    <Card style={{ width: '15rem', margin: '2px', marginBottom: '30px' }} className="cardHov">
+                    <Card.Img variant="top" src={this.state.packImage[index]} width="250" height="250" />
+                    <Card.Body>{this.state.name[index]} &nbsp; <img src={'https://i.postimg.cc/cHtxQ60w/tour.png'} width="30" height="30" /></Card.Body>
+                    <Card.Body>
+                    <span></span>                  
                     <Card.Body>{this.state.description[index]}</Card.Body>
-                  </Card.Body>
+                    </Card.Body>
                 </Card>
-              </div>
+                    </div>    
+                </div>
+            ))}
             </div>
-          ))}
-        </div>
-      </div>
-    )
+            </div>
+        )
+
   }
 };
 
