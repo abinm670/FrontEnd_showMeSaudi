@@ -285,7 +285,7 @@ class TourGuyProfile extends Component {
   renderNormal() {
     let comments = this.state.comments ? this.state.comments.map((item, index) => {
       return <li key={index}>{item.comment}</li>
-    }) : " "
+    }) : "There are no comment.. add one"
 
 
     // console.log(this.state.rate);
