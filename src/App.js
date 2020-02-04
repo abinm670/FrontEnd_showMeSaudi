@@ -1,7 +1,11 @@
 import React, { Component } from 'react';
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
-
+import {
+  BrowserRouter as Router,
+  Route,
+  Link, withRouter
+} from 'react-router-dom';
 import NavbarMain from './components/Navbar'
 import Footer from './components/Footer'
 
@@ -11,6 +15,7 @@ class App extends Component {
 
 
     return (
+      <Router>
       <div className='body'>
         
         <NavbarMain />
@@ -19,6 +24,7 @@ class App extends Component {
         <Footer/>
 
       </div>
+      </Router>
     );
   }
 } 
