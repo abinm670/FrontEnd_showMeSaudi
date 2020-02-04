@@ -1,8 +1,6 @@
 import React, { Component } from 'react';
 import {
-  Container,CustomInput, Col, Form,FormText,
-  FormGroup, Label, Input,
-  Button,
+  Button
 } from 'reactstrap';
 import '../App.css';
 import axios from 'axios'
