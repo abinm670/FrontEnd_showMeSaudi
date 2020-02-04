@@ -1,4 +1,3 @@
-import guide from '../DB' //Import the file where the data is stored.
 import React, { Component } from 'react';
 import SignIn from './SignIn'
 import {
@@ -19,17 +18,23 @@ import 'react-phone-number-input/style.css';
 import ReactPhoneInput from "react-phone-input-2";
 import axios from 'axios'
 // import { Right } from 'react-bootstrap/lib/Media';
-import FileUpload from '../FileUpload';
-
+import {storage} from '../firebase';
 
 class SignUp extends Component {
-    state={
-        status: false,
-        send: false,
-        userDate:[],
-        phone: "",
-        api:"http://localhost:7000/api/newRuser"
+  constructor(props) {
+    super(props);
+    this.state = {
+      image: null,
+      url: '',
+      progress: 0,
+      moreInfo:"",
+      status: false,
+      send: false,
+      userDate:[],
+      phone: "",
+      api:"http://localhost:7000/api/newRuser"
     }
+  }
     showInfo(e){
         // e.preventDefault()
         this.setState({api:"http://localhost:7000/api/newTuser" })
@@ -52,7 +57,7 @@ class SignUp extends Component {
           console.log(this.state.phone);
         });}
 
-    //yasser type her
+    //yass
       changeTheStateForform = (e)=>{
         this.setState({
           [e.target.name] : e.target.value
@@ -65,15 +70,50 @@ class SignUp extends Component {
 
         this.setState({send:true})
       
-      }
-      
-        
-    )
-        
+      }) 
         .catch(err => console.log(err))
       }
+
+      //img
+      handleChangeImage = e => {
+        if (e.target.files[0]) {
+          const image = e.target.files[0];
+          this.setState(() => ({image}));
+        }
+      }
+
+    handleUpload = () => {
+      console.log("handleupload");
+      const {image} = this.state;
+      const uploadTask = storage.ref(`images/${image.name}`).put(image);
+      uploadTask.on('state_changed', 
+      (snapshot) => {
+        // progrss function ....
+        const progress = Math.round((snapshot.bytesTransferred / snapshot.totalBytes) * 100);
+        this.setState({progress});
+      }, 
+      (error) => {
+           // error function ....
+        console.log(error);
+      }, 
+    () => {
+        // complete function ....
+        storage.ref('images').child(image.name).getDownloadURL().then(url => {
+            console.log(url);
+            this.setState({ image: url});
+            this.setState({ url: url});
+        })
+    });
+  }
   render() {
-    // console.log(this.state)
+
+    const style = {
+      height: '100vh',
+      display: 'flex',
+      flexDirection: 'column',
+      alignItems: 'center',
+      justifyContent: 'center'
+    };
 
     if(!this.state.send)
 {
@@ -150,7 +190,22 @@ class SignUp extends Component {
       <Col>
       <FormGroup className="col-md-10">
           <Label for="exampleFile">Personal Picture</Label>
-          <CustomInput method="post" action="/upload" enctype="multipart/form-data" type="file" name="img" id="exampleFile" label="Please choose your Personal photo" onChange={this.changeTheStateForform}  />
+          {/* <CustomInput method="post" action="/upload" enctype="multipart/form-data" type="file" name="img" id="exampleFile" label="Please choose your Personal photo" onChange={this.changeTheStateForform}  /> */}
+          <Col>
+        <FormGroup tag="fieldset">
+          <div style={style}>
+      <progress value={this.state.progress} max="100"/>
+      <br/>
+        <input type="file" name="image" onChange={(e)=>{
+          this.handleChangeImage (e)
+        setTimeout(() => {
+          this.handleUpload()
+        }, 1000);}}/>
+        <br/>
+        <img src={this.state.url || 'http://via.placeholder.com/400x300'} alt="Uploaded images" height="300" width="400"/>
+      </div>          
+      </FormGroup>
+      </Col>
       </FormGroup>
       </Col>
 
