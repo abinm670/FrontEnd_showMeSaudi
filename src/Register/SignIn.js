@@ -55,7 +55,7 @@ handleChange(e) {
     var user =  jwt_decode(res.data.token)
     console.log(user)
 
-      if(user.user.tourType==="regUser"){
+      if(user.user.tourType === "regUser"){
         this.props.history.push("./");
       }
       else{
@@ -79,7 +79,7 @@ handleChange(e) {
               type="email"
               name="email"
               id="exampleEmail"
-              placeholder="myemail@email.com"
+              placeholder="goldendevelopers@email.com"
               onChange={this.changeTheStateForform}/>
           </FormGroup>
         </Col>

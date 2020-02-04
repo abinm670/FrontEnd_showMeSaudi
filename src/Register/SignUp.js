@@ -1,13 +1,11 @@
 import React, { Component } from 'react';
 import SignIn from './SignIn'
 import {
-  Container,CustomInput, Col,Row, Form,FormText,
+  Col,Row, Form,
   FormGroup, Label, Input,
-  Button,DropdownButton,Dropdown,InputGroupButtonDropdown,
-  InputGroupDropdown,
-  DropdownToggle,
-  DropdownMenu,
-  DropdownItem,Nav,NavItem
+  Button
+
+  
 } from 'reactstrap';
 import {Tab,Tabs} from 'react-bootstrap';
 import {
@@ -32,6 +30,7 @@ class SignUp extends Component {
       send: false,
       userDate:[],
       phone: "",
+      country:"", 
       api:"http://localhost:7000/api/newRuser"
     }
   }
@@ -255,12 +254,20 @@ class SignUp extends Component {
         <Input type="password" name="password" id="examplePassword" placeholder="password placeholder" onChange={this.changeTheStateForform} />
       </FormGroup>
       </Col>
-      <Col>
+
+      {/* <Col>
+        <FormGroup className="col-md-10">
+            <Label for="Last Name">Country :</Label>
+            <Input type="text" name="country" value={this.state.country} id="Last Name" placeholder="Enter your Last Country" onChange={this.handleOnChange}/>
+        </FormGroup>
+      </Col> */}
+
+      {/* <Col>
       <FormGroup className="col-md-10">
         <Label for="examplePassword">Confirm Password :</Label>
         <Input type="password" name="password_confirmation" id="password_confirmation" onChange={this.changeTheStateForform}/>
       </FormGroup>
-      </Col>
+      </Col> */}
       </Row>
       <FormGroup>
       <Col>

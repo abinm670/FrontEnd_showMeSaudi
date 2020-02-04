@@ -3,6 +3,7 @@ import {CustomInput,Form,FormGroup, Label, Input,Col,Row,Button} from 'reactstra
 import '../App.css';
 import axios from 'axios'
 import ReactPhoneInput from "react-phone-input-2";
+import jwt_decode from 'jwt-decode'
 class EditRUserPrpfile extends Component{
   constructor(props){
     super(props);
@@ -21,11 +22,15 @@ class EditRUserPrpfile extends Component{
       editing:false, 
       save:false,
       x:localStorage.getItem('usertoken'),
-     user:""
+      user:"",
+      userInf:this.props.match.params.id
     }
     this.edit = this.edit.bind(this);
     this.save = this.save.bind(this);
   }
+  componentDidMount() {
+    this.setState({user: jwt_decode(this.state.x)})
+      }
       //helper functions that change state
       edit()
       {
@@ -40,6 +45,11 @@ class EditRUserPrpfile extends Component{
         //juts for testing 
         alert("now saving value ");
       }  
+      handleOnChange = value => {
+        console.log(value);
+        this.setState({ phone: value }, () => {
+          console.log(this.state.phone);
+        });}
   changeTheStateForform = (e)=>{
         this.setState({
           [e.target.name] : e.target.value
@@ -47,7 +57,7 @@ class EditRUserPrpfile extends Component{
       }
     // EDIT PROFILE 
 onsubmitTheStateToEdit = ()=>{
-  axios.put("http://localhost:7000/api/r-user_edit/"+this.props.match.params.id, this.state)
+  axios.put("http://localhost:7000/api/r-user_edit/"+this.userInf, this.state)
   .then((res) =>
   {
     console.log("what data do u have ", res)
@@ -56,6 +66,7 @@ onsubmitTheStateToEdit = ()=>{
   .catch(err => console.log(err))
 }
     render(){
+      console.log("hello" ,this.state.userInfo)
         return(
       <dev>
         <br/><br/><br/><br/><br/>
