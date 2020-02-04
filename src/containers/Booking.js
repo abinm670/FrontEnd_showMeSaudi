@@ -18,7 +18,7 @@ class Booking extends Component {
       tourGuy: [],
       regUser: [],
       date: [],
-      id:[]
+      id: []
     }
   }
   componentDidMount() {
@@ -58,12 +58,12 @@ class Booking extends Component {
     }
   }
 
-  
 
-  cancelBook = (BookidToconcel) => {
+
+  cancelBook = (BookidTocancel) => {
     if (this.state.user.user.tourType === "regUser") {
-      console.log(BookidToconcel+"BookidToconcel")
-      axios.delete(`http://localhost:7000/api/r-booking/delete/`+BookidToconcel)
+      console.log(BookidTocancel + "BookidTocancel")
+      axios.delete(`http://localhost:7000/api/r-booking/delete/` + BookidTocancel)
         .then(response => {
           console.log(response);
         });
@@ -71,8 +71,8 @@ class Booking extends Component {
 
     //tourGuy
     else if (this.state.user.user.tourType === "tourUser") {
-      console.log(BookidToconcel+"BookidToconcel")
-      axios.delete(`http://localhost:7000/api/t-booking/delete/`+BookidToconcel)
+      console.log(BookidTocancel + "BookidTocancel")
+      axios.delete(`http://localhost:7000/api/t-booking/delete/` + BookidTocancel)
         .then(response => {
           console.log(response);
         });
