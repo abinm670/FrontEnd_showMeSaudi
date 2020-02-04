@@ -3,9 +3,7 @@ import { Card } from 'react-bootstrap/';
 import guide from '../DB' //Import the file where the data is stored.
 import { Container, Row} from 'react-bootstrap/';
 import Rater from 'react-rater';
-import {
-    Link
-  } from 'react-router-dom';
+import {Link} from 'react-router-dom';
 import axios from 'axios'
 import sr from "../img/sr.png"
 
