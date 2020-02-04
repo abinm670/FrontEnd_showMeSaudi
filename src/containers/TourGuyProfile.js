@@ -24,19 +24,26 @@ class TourGuyProfile  extends Component {
       firstName:"",
       lastName: "",
       address:"",
-      img:"",
+      image:"",
       price:"",
       AboutMe:"",
+      name:[],
+      description:[],
+      packImage:[],
       comment: [] ,
       id:this.props.match.params.id,
       startDate: new Date(),
       editing:false, 
+      addingPack:false, 
       save:false,
+      saveAdding:false,
       x:localStorage.getItem('usertoken'),
      user:""
     }
     this.edit = this.edit.bind(this);
     this.save = this.save.bind(this);
+    this.adding = this.adding.bind(this);
+    this.saveAdding = this.saveAdding.bind(this);
   }
 
     //helper functions that change state
@@ -50,7 +57,22 @@ class TourGuyProfile  extends Component {
       this.setState({editing:false});
       //call the method below to update and tarnsfer the data to the back-end  
       this.onsubmitTheStateToEdit()
-      //juts for testing 
+      //just for testing 
+      alert("now saving value ");
+    }
+
+    //helper functions that change state addingPack
+    adding()
+    {
+      this.setState({addingPack:true});
+      alert("now addingPack");
+    }
+    saveAdding()
+    {
+      this.setState({addingPack:false});
+      //call the method below to update and tarnsfer the data to the back-end  
+      this.onsubmitTheStateToAdd()
+      //just for testing 
       alert("now saving value ");
     }
 
@@ -68,7 +90,7 @@ class TourGuyProfile  extends Component {
           this.setState({firstName: response.data.firstName})
           this.setState({lastName: response.data.lastName} )
           this.setState({city: response.data.city})
-          this.setState({img: response.data.img} )
+          this.setState({image: response.data.image} )
           this.setState({rate: response.data.rate} )
           this.setState({price: response.data.price} )
           this.setState({AboutMe: response.data.AboutMe} )
@@ -76,7 +98,7 @@ class TourGuyProfile  extends Component {
       }).catch((err)=> console.log("data has not been recived"));
 
 
-  ////////////////////////////// Comment api
+  // Comment api
   axios.get(`http://localhost:7000/api/t-comment/`+this.props.match.params.id) 
   .then(res => {
     this.setState({comments: res.data})
@@ -84,26 +106,30 @@ class TourGuyProfile  extends Component {
   .catch((error) => {
     console.log(error)
   })
+
+  //packages
+    axios.get("http://localhost:7000/api/t-users/"+this.state.id+"/packages") 
+    .then(res => {
+      console.log(res+"pack")
+
+      for(let i in res.data){
+          this.setState({name: this.state.name.concat(res.data[i].name)})
+          this.setState({packImage: this.state.packImage.concat(res.data[i].packImage)} )
+          this.setState({description: this.state.description.concat(res.data[i].description)})
+      }
+    })
+    .catch((error) => {
+      console.log(error)
+    })
 }
 
 onsubmitTheStateToPosted = ()=>{
 var x=localStorage.getItem('usertoken');
 var user =  jwt_decode(x)
-console.log(this.state.id)
-console.log(user.user._id)
-console.log(this.state.comment)
 axios.post("http://localhost:7000/api/r-comment/"+this.state.id+"/"+user.user._id,this.state)
 .then(res => console.log(res))
 .catch(err => console.log(err))
 console.log("posted")
-}
-
-changeTheStateForform = (e)=>{
-console.log("inside add comment")
-this.setState({
-[e.target.name] : e.target.value
-})
-console.log("changeTheStateForform!!")
 }
 
     //Booking
@@ -131,6 +157,17 @@ onsubmitTheStateToEdit = ()=>{
 )
   .catch(err => console.log(err))
 }
+
+// Add packages 
+onsubmitTheStateToAdd = ()=>{
+  axios.post("http://localhost:7000/api/t-users/"+this.props.match.params.id+"/packages", this.state)
+  .then((res) =>
+  {
+    console.log("what pack do u have ", res)
+  } 
+)
+  .catch(err => console.log(err))
+}
 // // EDIT Rating 
 // ratingEdit = ()=>{
 //   axios.put("http://localhost:7000/api/t-user_edit/"+this.state.id, this.state)
@@ -142,7 +179,6 @@ onsubmitTheStateToEdit = ()=>{
 //   .catch(err => console.log(err))
 // }
 
-  
   handleChange = date => {
     this.setState({
       startDate: date
@@ -169,9 +205,9 @@ renderEdit()
 return(
   
 <div  className="central">
-  <h2 className="title"> Edit Proile </h2> 
-  {/* add img latter  */}
-    {/* <figure><img src={this.state.img} alt="" class="img-thumbnail" /></figure> */}
+  <h2 className="title"> Edit Profile </h2> 
+  {/* add image latter  */}
+    {/* <figure><image src={this.state.image} alt="" class="img-thumbnail" /></figure> */}
     
       <Form>
       <Row>
@@ -179,7 +215,7 @@ return(
       <FormGroup className="col-md-10">
         <img src={d} alt="" class="img-thumbnail" />
           <Label for="exampleFile">Change Personal Picture :</Label>
-          <CustomInput method="post" action="/upload" enctype="multipart/form-data" type="file" name="img" id="exampleFile" label="Please choose your Personal photo" onChange={this.changeTheStateForform}  />
+          <CustomInput method="post" action="/upload" enctype="multipart/form-data" type="file" name="image" id="exampleFile" label="Please choose your Personal photo" onChange={this.changeTheStateForform}  />
         
       </FormGroup>
       </Col>
@@ -258,32 +294,15 @@ renderNormal() {
 
     // console.log(this.state.rate);
     //   console.log(this.state.raters);
-    const AllPackages=guide.map((item, index) => {
-      return <div key={index} className='Card'>
-     <div className='ContainerHomeCity'>
-         
-          <Card style={{ width: '15rem', margin: '2px', marginBottom: '30px' }} className="cardHov">
-              {/* Add onClick event handler to the name and an image of the place */}
-
-              <Card.Img variant="top" src={item.imgSrc} width="250" height="250" />
-              <Card.Body>
-              {/* {item.city} */}
-              <Card.Body>Package Name &nbsp; <img src={'https://i.postimg.cc/cHtxQ60w/tour.png'} width="30" height="30" /></Card.Body>
-              <Card.Body>Description about the Package</Card.Body>            
-              </Card.Body>
-          </Card>
-      </div>
-      </div>
-  })   
     
     return (
       <div>
         <br/><br/><br/>
         <article className="box media">
           <div className="media-left">
-            {/* <figure><img src={this.state.img} alt="" class="img-thumbnail" /></figure> */}
+            {/* <figure><img src={this.state.image} alt="" class="img-thumbnail" /></figure> */}
             <div className="col-lg-7">
-              <img className="img-fluid rounded mb-4 mb-lg-0" src={d} alt="" />
+              <img className="img-fluid rounded mb-4 mb-lg-0" src={this.state.image} alt="" />
               </div>
               </div>
               <div className="media-content">
@@ -291,15 +310,15 @@ renderNormal() {
               <p><strong>About me: {this.state.AboutMe}</strong></p>
               <p><strong>Price: {this.state.price}</strong></p>
               <p><strong>City: {this.state.city}</strong></p>
-              <p><strong>Pakage Name:{this.state.package}</strong></p>
               </div>
               <div classNmae="media-right">
-              <Button variant="outline-primary" onClick={this.edit}>Edit Proile</Button>
+              <Button variant="outline-primary" onClick={this.edit}>Edit Profile</Button>
+              <Button variant="outline-primary" onClick={this.adding}>Add package</Button>
               </div>
             </article>
        
               <Rater total={5} rating={this.state.rate/this.state.raters} style={{cursor:'pointer'}} onRate={(rating)=>{this.setState((prev)=>({raters: prev.raters +1, rate: rating.rating + prev.rate}));}} /> 
-                       {this.showRate()}
+              {this.showRate()}
                        
               <br/><DatePicker selected={this.state.startDate} onChange={this.handleChange} />
               <div><Button onClick ={this.onsubmitTheStateToBook}  size="sm" > Book </Button></div>
@@ -321,7 +340,7 @@ renderNormal() {
           <Container >
             <Row className='Cont'>
                   {/* render the list of city generated in the render method above */}
-                  {AllPackages}
+                  {this.DisplayAllPackages()}
             </Row>
         </Container>
 
@@ -330,16 +349,64 @@ renderNormal() {
     
   );}
 
+  renderAdd()
+{
+return(
+<div  className="central">
+  <h2 className="title">Add Package </h2> 
+      <Form>
+      <Row>
+      <Col>
+        <FormGroup className="col-md-10">
+            <Label for="Name">Name: </Label>
+            <Input type="text" className="input" name="name" onChange={this.changeTheStateForform} defaultValue={this.state.name}/>
+        </FormGroup>
+      </Col>
+      <Col>
+        <FormGroup className="col-md-10">
+            <Label for="Description">Description: </Label>
+            <Input type="text" className="input" name="description" onChange={this.changeTheStateForform} defaultValue={this.state.description}/>
+        </FormGroup>
+      </Col>
+      </Row>
+      <Button variant="outline-warning" onClick={this.saveAdding}>Save</Button>
+        </Form>   
+</div>
+);}
+  
 
 render()
       {
         if(this.state.editing)
           return this.renderEdit();
+        else if(this.state.addingPack)
+          return this.renderAdd();
         else
-        return this.renderNormal()
+        return this.renderNormal();
       }
 
-  
+  DisplayAllPackages(){
+        return(
+        <div>
+          <div className='ContainerHomeCity'>
+                { this.state.name.map((n, index) => (
+                <div className="col mb-4">
+                    <div>
+                    <Card style={{ width: '15rem', margin: '2px', marginBottom: '30px' }} className="cardHov">
+                    <Card.Img variant="top" src={this.state.packImage[index]} width="250" height="250" />
+                    <Card.Body>{this.state.name[index]} &nbsp; <img src={'https://i.postimg.cc/cHtxQ60w/tour.png'} width="30" height="30" /></Card.Body>
+                    <Card.Body>
+                    <span></span>                  
+                    <Card.Body>{this.state.description[index]}</Card.Body>
+                    </Card.Body>
+                </Card>
+                    </div>    
+                </div>
+            ))}
+            </div>
+            </div>
+        )
+  }
 };
 
 export default TourGuyProfile;
