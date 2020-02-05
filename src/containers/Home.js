@@ -3,16 +3,12 @@ import CityList from './CityList'
 
 
 
-
-
 class Home extends Component{
-
-
   render() {
     return (
       <div className="AllHome">
         <div className='ContainerHomeSearch'>
-          <img className='HomeImg' src={'https://imcdn.org/uploads/2018/12/tantoura1.jpg'} width="100%" height="50%"/>
+          <img className='HomeImg' src={'https://i.postimg.cc/13X1VygT/tantoura3.jpg'} width="100%" height="50%"/>
 
           <div className="searchCont">
             <div>
@@ -28,7 +24,6 @@ class Home extends Component{
             </div>
           </div>    
         </div>
-
         <div className='ContainerHomeCity'>
         <CityList/>
 
