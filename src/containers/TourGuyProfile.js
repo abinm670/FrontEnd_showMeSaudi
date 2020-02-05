@@ -39,11 +39,13 @@ class TourGuyProfile extends Component {
       packImage: [],
       addingPack: false,
       save: false,
+      delete: false, 
       isTouGuy: false,
       logedin: false
     }
     this.edit = this.edit.bind(this);
     this.save = this.save.bind(this);
+    this.deleteUser = this.deleteUser.bind(this);
     this.adding = this.adding.bind(this);
     this.saveAdding = this.saveAdding.bind(this);
 
@@ -76,6 +78,15 @@ class TourGuyProfile extends Component {
     //just for testing 
     alert("now saving value ");
   }
+  deleteUser()
+  {
+    this.setState({ deleteUser: false });
+    //call the method below to update and tarnsfer the data to the back-end  
+    this.onsubmitTheStateToDelete()
+    //just for testing 
+    alert("now deleting user ");
+
+  }
 
 
   changeTheStateForform = (e) => {
@@ -84,17 +95,22 @@ class TourGuyProfile extends Component {
     })
   }
 
+  
+
+
+
   componentDidMount() {
-    localStorage.usertoken ?
-      this.setState({
-        logedin: true, tourType:
-          jwt_decode(localStorage.usertoken).user.tourType,
-        user:
-          jwt_decode(localStorage.usertoken),
-        id:
-          jwt_decode(localStorage.usertoken).user._id
-      }) :
-      this.setState({ logedin: false })
+    if (typeof localStorage.usertoken  == 'string')
+  { this.setState({ logedin: true, 
+     tourType: 
+     jwt_decode(localStorage.usertoken).user.tourType,
+     user: 
+     jwt_decode(localStorage.usertoken) ,
+     id: 
+     jwt_decode(localStorage.usertoken).user._id })
+   }  
+     this.setState({ logedin: false })
+   
 
     this.setState({ user: jwt_decode(localStorage.usertoken) })
     axios.get(`http://localhost:7000/api/t-user/` + this.state.Tid)
@@ -177,7 +193,27 @@ class TourGuyProfile extends Component {
       }
       )
       .catch(err => console.log(err))
+
+ 
+      // /api/t-booking/delete/:id'
+
   }
+
+
+
+// delete users 
+onsubmitTheStateToDelete = () => {
+  axios.put("http://localhost:7000/t-user/delete/" + this.state.Tid, this.state)
+    .then((res) => {
+      console.log("user been deleted", res)
+    }
+    )
+    .catch(err => console.log(err))
+
+}
+
+  
+
 
 
 
@@ -350,8 +386,9 @@ class TourGuyProfile extends Component {
                   defaultValue={this.state.price} />
               </FormGroup>
             </Col>
+            <Button variant="outline-warning" onClick={this.save}> Delete Account </Button>
           </Row>
-          <Button variant="outline-warning" onClick={this.save}>Save</Button>
+          <Button variant="outline-warning" onClick={this.save}>Save now</Button>
         </Form>
       </div>
     );
