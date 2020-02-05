@@ -1,9 +1,13 @@
 import React, { Component } from 'react';
 import { Card } from 'react-bootstrap/';
 import guide from '../DB' //Import the file where the data is stored.
-import { Container, Row } from 'react-bootstrap/';
+
+import { Container, Row , Col} from 'react-bootstrap/';
 import Rater from 'react-rater';
-import { Link } from 'react-router-dom';
+import {
+  Link
+} from 'react-router-dom';
+
 import axios from 'axios'
 import sr from "../img/sr.png"
 
@@ -69,22 +73,58 @@ class TourGuys extends Component {
         })
     }
   }
-  
+
   render() {
+
+    const DisplayAllTourGuys = this.state.firstName.map((n, index) => {
+      return <div key={index} className='Card'>
+        <div className='ContainerHomeCity'>
+          <Col>
+            <Card style={{ width: '15rem', margin: '2px', marginBottom: '30px' }} className="cardHov">
+              {/* Add onClick event handler to the name and an image of the place */}
+              <Card.Img variant="top" src={this.state.image[index]} width="250" height="250" />
+              <Card.Body>
+                <span></span>
+                <Link to={"/TourGuyProfile/" + this.state.id[index]}>{this.state.firstName[index] + " " + this.state.lastName[index]}</Link>
+                <Card.Body>{this.state.cityShow[index]}</Card.Body>
+                <Card.Body>{this.state.rate[index]}</Card.Body>
+                <Card.Body>{this.state.price[index]}<img src={sr} width="40" height="30" />Per 1 hours</Card.Body>
+
+                {/* <Rater >{this.state.rate[index]}</Rater>total={5} rating={3} interactive={false} style={{cursor:'pointer'}} /> */}
+              </Card.Body>
+            </Card>
+          </Col>
+        </div>
+      </div>
+    })
     return (
       <div>
         <div className='ContainerHomeSearch'>
-          <img className='TourGuyHomeImg' src={'https://i.postimg.cc/CMcw8xKf/Screen-Shot-2020-01-28-at-2-18-16-PM.png'} width="100%" height="50%" />
+          <img className='TourGuyHomeImg' src={'https://i.postimg.cc/CMcw8xKf/Screen-Shot-2020-01-28-at-2-18-16-PM.png'} width="100%" height="500px" />
           <div className="searchCont">
-            <p className='HomeText'>Privileged Access With The Best Tour Guys</p>
+            <p className='HomeText2'>Privileged Access With The Best Tour Guys</p>
           </div>
         </div>
-        <br></br>
-        {this.DisplayAllTourGuys()}
-        <br></br>
-      </div>
-    );
-  }
+        <Container className='Cont'>
+          {DisplayAllTourGuys}
+        </Container>
+
+  
+//   render() {
+//     return (
+//       <div>
+//         <div className='ContainerHomeSearch'>
+//           <img className='TourGuyHomeImg' src={'https://i.postimg.cc/CMcw8xKf/Screen-Shot-2020-01-28-at-2-18-16-PM.png'} width="100%" height="50%" />
+//           <div className="searchCont">
+//             <p className='HomeText'>Privileged Access With The Best Tour Guys</p>
+//           </div>
+//         </div>
+//         <br></br>
+//         {this.DisplayAllTourGuys()}
+//         <br></br>
+//       </div>
+//     );
+//   }
   DisplayAllTourGuys() {
     return (
       <div>
@@ -108,6 +148,7 @@ class TourGuys extends Component {
             </div>
           ))}
         </div>
+
       </div>
     )
   }

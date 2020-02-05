@@ -346,28 +346,10 @@ axios.get("http://localhost:7000/api/t-users/" + this.state.Tid + "/packages")
       justifyContent: 'center'
     };
     return (
+<div className="AddPackageCont">
 
-      <div className="central">
         <h2 className="title"> Edit Profile </h2>
         <Form>
-          <Row>
-            <Col>
-              <FormGroup tag="fieldset">
-                <div style={style}>
-                  <progress value={this.state.progress} max="100" />
-                  <br />
-                  <input type="file" name="image" onChange={(e) => {
-                    this.handleChangeImage(e)
-                    setTimeout(() => {
-                      this.handleUpload()
-                    }, 1000);
-                  }} />
-                  <br />
-                  <img src={this.state.url || 'http://via.placeholder.com/400x300'} alt="Uploaded images" height="300" width="400" />
-                </div>
-              </FormGroup>
-            </Col>
-          </Row>
           <Row>
             <Col>
               <FormGroup className="col-md-10">
@@ -419,7 +401,32 @@ axios.get("http://localhost:7000/api/t-users/" + this.state.Tid + "/packages")
 
 
           </Row>
-          <Button variant="outline-warning" onClick={this.save}>Save now</Button>
+
+          <Row>
+            <Col>
+              <FormGroup tag="fieldset">
+                {/* <div style={style}> */}
+                  
+                  <br />
+                  <img src={this.state.url || 'http://via.placeholder.com/200x150'} alt="Uploaded images" height="150" width="200" />
+                {/* </div> */}
+              </FormGroup>
+            </Col>
+            <Col>
+            <FormGroup>
+            <progress value={this.state.progress} max="100" />
+                  <br />
+                  <input type="file" name="image" onChange={(e) => {
+                    this.handleChangeImage(e)
+                    setTimeout(() => {
+                      this.handleUpload()
+                    }, 1000);
+                  }} />
+                   </FormGroup>
+            </Col>
+          </Row>
+          <Button variant="outline-warning" onClick={this.save}>Save</Button>
+
         </Form>
       </div>
     );

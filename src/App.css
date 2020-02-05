@@ -2,6 +2,7 @@
 .navDark {
   background: rgba(0, 0, 0, 0.6);
   display: flex;
+
 } 
 
 .Navbar{
@@ -10,14 +11,11 @@
 
 .NavLink{
   color: white;
+  font-size: 15px;
 }
 .NavJed{
   color: white;
 }
-
-
-
-
 .footer{
   position: fixed;
   left: 0;
@@ -88,6 +86,12 @@
   font-size:60px;
   text-shadow: red 1px 0 10px;
 }
+.HomeText2{
+	font-weight: 1000;
+	font-size:40px;
+	text-shadow: red 1px 0 10px;
+}
+
 .search{
   justify-content: center;
   
@@ -389,6 +393,8 @@ Label {
 .Cont{
 	display: flex;
 	justify-content: center;
+	flex-wrap: wrap;
+	/* flex-direction: column; */
 }
 
 
