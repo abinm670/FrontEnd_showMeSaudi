@@ -4,6 +4,7 @@ import '../App.css';
 import axios from 'axios'
 import ReactPhoneInput from "react-phone-input-2";
 import jwt_decode from 'jwt-decode'
+import { Link } from 'react-router-dom';
 
 class EditRUserPrpfile extends Component{
   constructor(props){
@@ -117,7 +118,7 @@ onsubmitTheStateToEdit = ()=>{
       </Row>
       
       {/* <Button variant="outline-warning" onClick={this.onsubmitTheStateToEdit}>Update</Button> */}
-      <Button variant="outline-warning" onClick={this.save}>Save</Button>
+      <Link to="/" className="NavLink"><Button variant="outline-warning" onClick={this.save}>Save</Button></Link>
         
         </Form>
       </dev>

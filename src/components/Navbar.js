@@ -20,9 +20,6 @@ class NavbarMain extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      // isOpen: false,
-      wether: '',
-      icon: '',
       logedin: false
     };
   }
@@ -63,7 +60,7 @@ class NavbarMain extends React.Component {
             <NavbarBrand> <Link to="/contact" className="NavLink">Contact</Link> </NavbarBrand>
             <NavbarBrand>{(this.state.logedin && this.state.tourType == "regUser") ? <Link to="/EditRUserPrpfile" className="NavLink">Edit Profile</Link> : ""}</NavbarBrand>
             {/* switch login and out */}
-            <NavbarBrand> <Link to="/manageBooking" className="NavLink">manage my booking</Link> </NavbarBrand>
+            <NavbarBrand> {this.state.logedin ?<Link to="/manageBooking" className="NavLink">manage my booking</Link> : ""}</NavbarBrand>
             <NavbarBrand > {this.state.logedin ? <Link to="/" className="NavLink" onClick={this.logout}>Sign Out</Link> : <Link to="/SignIn" className="NavLink">Sign In</Link>} </NavbarBrand>
           </Container>
         </Navbar>
