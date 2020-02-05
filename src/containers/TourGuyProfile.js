@@ -429,45 +429,53 @@ class TourGuyProfile extends Component {
       justifyContent: 'center'
     };
     return (
-      <div className="central">
+      <div className="AddPackageCont">
         <h2 className="title">Add Package </h2>
+        <br />
         <Form>
           <Row>
             <Col>
               <FormGroup className="col-md-10">
-                <Label for="exampleFile">Package Picture</Label>
-                <Col>
-                  <FormGroup tag="fieldset">
-                    <div style={style}>
-                      <progress value={this.state.progress} max="100" />
-                      <br />
-                      <input type="file" name="packImage" onChange={(e) => {
-                        this.handleChangeImagePack(e)
-                        setTimeout(() => {
-                          this.handleUploadPack()
-                        }, 1000);
-                      }} />
-                      <br />
-                      <img src={this.state.url || 'http://via.placeholder.com/400x300'} alt="Uploaded images" height="300" width="400" />
-                    </div>
-                  </FormGroup>
-                </Col>
+                <Row>
+                  <Label for="exampleFile">Package Picture</Label>
+                </Row>
+                <Row>
+                  <progress value={this.state.progress} max="100" />
+                </Row>
+                <br />
+                <Row>
+                  <input type="file" name="packImage" onChange={(e) => {
+                    this.handleChangeImagePack(e)
+                    setTimeout(() => {
+                      this.handleUploadPack()
+                    }, 1000);
+                  }} />
+                </Row>
+                <br />
+                <Row>
+                  <img src={this.state.url || 'http://via.placeholder.com/200x150'} alt="Uploaded images" height="150" width="200" />
+                </Row>
               </FormGroup>
             </Col>
             <Col>
               <FormGroup className="col-md-10">
-                <Label for="Name">Name: </Label>
-                <Input type="text" className="input" name="name" onChange={this.changeTheStateForform} />
-              </FormGroup>
-            </Col>
-            <Col>
-              <FormGroup className="col-md-10">
-                <Label for="Description">Description: </Label>
-                <Input type="text" className="input" name="description" onChange={this.changeTheStateForform} />
+                <Row>
+                  <Label for="Name">Name: </Label>
+                  <Input type="text" className="input" name="name" onChange={this.changeTheStateForform} />
+                </Row>
+                <Row>
+                  <Label for="Description">Description: </Label>
+                  <Input type="textarea" name="comment" id="exampleText" name="description" onChange={this.changeTheStateForform} />
+                </Row>
               </FormGroup>
             </Col>
           </Row>
-          <Button variant="outline-warning" onClick={this.saveAdding}>Save</Button>
+          <FormGroup className="col-md-10">
+            <Row>
+              <Col><div></div></Col>
+              <Col> <Button variant="outline-warning" onClick={this.saveAdding}>Save</Button></Col>
+            </Row>
+          </FormGroup>
         </Form>
       </div>
     );
