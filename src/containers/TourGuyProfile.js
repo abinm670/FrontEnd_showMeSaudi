@@ -32,15 +32,17 @@ class TourGuyProfile extends Component {
             comment: [],
             packId: [],
             packImageUpload: null,
-            id: this.props.match.params.id,
+            Tid: this.props.match.params.id,
             startDate: new Date(),
             editing: false,
             saveAdding: false,
-            user: "",
+            //user: "",
             packImage: [],
             addingPack: false,
             save: false,
-            x: localStorage.getItem('usertoken'),
+            isTouGuy: false,
+            logedin: false
+
         }
         this.edit = this.edit.bind(this);
         this.save = this.save.bind(this);
@@ -85,8 +87,17 @@ class TourGuyProfile extends Component {
     }
 
     componentDidMount() {
-        this.setState({ user: jwt_decode(this.state.x) })
-        axios.get(`http://localhost:7000/api/t-user/` + this.props.match.params.id)
+      localStorage.usertoken ? 
+      this.setState({ logedin: true, tourType: 
+        jwt_decode(localStorage.usertoken).user.tourType,
+        user: 
+        jwt_decode(localStorage.usertoken) ,
+        id: 
+        jwt_decode(localStorage.usertoken).user._id }) : 
+        this.setState({ logedin: false })
+
+        this.setState({ user: jwt_decode(localStorage.usertoken) })
+        axios.get(`http://localhost:7000/api/t-user/` + this.state.Tid)
             .then(response => {
                 //console.log(response);
 
@@ -97,12 +108,12 @@ class TourGuyProfile extends Component {
                 this.setState({ rate: response.data.rate })
                 this.setState({ price: response.data.price })
                 this.setState({ AboutMe: response.data.AboutMe })
-                this.setState({ id: response.data._id })
+                this.setState({ Tid: response.data._id })
             }).catch((err) => console.log("data has not been recived"));
 
 
         // Comment api
-        axios.get(`http://localhost:7000/api/t-comment/` + this.props.match.params.id)
+        axios.get(`http://localhost:7000/api/t-comment/` + this.state.Tid)
             .then(res => {
                 this.setState({ comments: res.data })
             })
@@ -111,7 +122,7 @@ class TourGuyProfile extends Component {
             })
 
         //packages
-        axios.get("http://localhost:7000/api/t-users/" + this.state.id + "/packages")
+        axios.get("http://localhost:7000/api/t-users/" + this.state.Tid + "/packages")
             .then(res => {
                 console.log(res + "pack")
 
@@ -127,9 +138,8 @@ class TourGuyProfile extends Component {
             })
     }
     onsubmitTheStateToPosted = () => {
-        var x = localStorage.getItem('usertoken');
-        var user = jwt_decode(x)
-        axios.post("http://localhost:7000/api/r-comment/" + this.state.id + "/" + user.user._id, this.state)
+        var user = jwt_decode(localStorage.usertoken)
+        axios.post("http://localhost:7000/api/r-comment/" + this.state.Tid + "/" + this.state.id, this.state)
             .then(res => console.log(res))
             .catch(err => console.log(err))
         console.log("posted")
@@ -142,7 +152,7 @@ class TourGuyProfile extends Component {
         }
         else {
             var datetoB = this.state.startDate.toDateString();
-            axios.post("http://localhost:7000/api/r-booking/" + this.state.id + "/" + this.state.user.user._id + "/" + datetoB, this.state)
+            axios.post("http://localhost:7000/api/r-booking/" + this.state.Tid + "/" + this.state.id + "/" + datetoB, this.state)
                 .then(
                     (res) => {
                         console.log(res)
@@ -152,7 +162,7 @@ class TourGuyProfile extends Component {
     }
     // Add packages 
     onsubmitTheStateToAdd = () => {
-        axios.post("http://localhost:7000/api/t-users/" + this.props.match.params.id + "/packages", this.state)
+        axios.post("http://localhost:7000/api/t-users/" + this.state.Tid + "/packages", this.state)
             .then((res) => {
                 console.log("what pack do u have ", res)
             }
@@ -161,7 +171,7 @@ class TourGuyProfile extends Component {
     }
     // EDIT PROFILE 
     onsubmitTheStateToEdit = () => {
-        axios.put("http://localhost:7000/api/t-user_edit/" + this.props.match.params.id, this.state)
+        axios.put("http://localhost:7000/api/t-user_edit/" + this.state.Tid, this.state)
             .then((res) => {
                 console.log("what data do u have ", res)
             }
@@ -256,7 +266,7 @@ class TourGuyProfile extends Component {
 
     deletePack = (PackidTodelete) => {
         //tourGuy
-        if (this.state.user.user.tourType === "tourUser") {
+        if (this.state.tourType === "tourUser") {
             console.log(PackidTodelete + "PackidTodelete")
             axios.delete(`http://localhost:7000/api/t-packages/delete/` + PackidTodelete)
                 .then(response => {
@@ -469,10 +479,13 @@ class TourGuyProfile extends Component {
 
 
     render() {
+      console.log(this.state.tourType)
         if (this.state.editing)
             return this.renderEdit();
         else if (this.state.addingPack)
             return this.renderAdd();
+            // else if(!this.state.logedin)
+            // return this.renderNormal();
         else
             return this.renderNormal();
     }

@@ -47,6 +47,8 @@ class NavbarMain extends React.Component {
   }
 
   render() {
+    console.log(this.state.tourType)
+
     return (
       <>
         <Navbar color="faded" dark expand="md" fixed={`top`} className="navDark" >
