@@ -189,7 +189,7 @@ axios.get("http://localhost:7000/api/t-users/" + this.state.Tid + "/packages")
     if (this.state.startDate == null) {
       alert("please select date")
     }
-
+  }
     // Add packages 
     onsubmitTheStateToAdd = () => {
         axios.post("http://localhost:7000/api/t-users/" + this.state.Tid + "/packages", this.state)
@@ -199,12 +199,23 @@ axios.get("http://localhost:7000/api/t-users/" + this.state.Tid + "/packages")
             )
             .catch(err => console.log(err))
     }
-    // EDIT PROFILE 
+  
+ // EDIT PROFILE 
     onsubmitTheStateToEdit = () => {
-        axios.put("http://localhost:7000/api/t-user_edit/" + this.state.Tid, this.state)
-            .then((res) => {
-                console.log("what data do u have ", res)
+      axios.put("http://localhost:7000/api/t-user_edit/" + this.state.Tid, this.state)
+        .then((res) => {
+          console.log("what data do u have ", res)
+        }
+        )
+        .catch(err => console.log(err))
+  
+    }
 
+      //Booking
+  onsubmitTheStateToBook = () => {
+    if (this.state.startDate == null) {
+      alert("please select date")
+    }
     else {
       var datetoB = this.state.startDate.toDateString();
       axios.post("http://localhost:7000/api/r-booking/" + this.state.Tid + "/" + this.state.id + "/" + datetoB, this.state)
@@ -221,6 +232,7 @@ axios.get("http://localhost:7000/api/t-users/" + this.state.Tid + "/packages")
         .catch(err => console.log(err))
     }
   }
+
   // Add packages 
   onsubmitTheStateToAdd = () => {
     axios.post("http://localhost:7000/api/t-users/" + this.state.Tid + "/packages", this.state)
@@ -259,7 +271,7 @@ axios.get("http://localhost:7000/api/t-users/" + this.state.Tid + "/packages")
     this.setState({
       startDate: date
     });
-  };
+  }
 
   
 // switch to page to write comments
@@ -278,6 +290,7 @@ axios.get("http://localhost:7000/api/t-users/" + this.state.Tid + "/packages")
     if (this.state.rate / this.state.raters > 0)
       return (<h6>{parseFloat(this.state.rate / this.state.raters).toFixed(1)} Stars</h6>)
   }
+
   handleChange = date => {
     this.setState({
       startDate: date
@@ -335,6 +348,7 @@ axios.get("http://localhost:7000/api/t-users/" + this.state.Tid + "/packages")
                     }
                   });
         }
+      }
       
   handleUpload = () => {
     const { image } = this.state;
@@ -496,35 +510,113 @@ axios.get("http://localhost:7000/api/t-users/" + this.state.Tid + "/packages")
     );
   }
 
+
 // Render the same data in the backend
-  renderNormal() {
-    let comments = this.state.comments ? this.state.comments.map((item, index) => {
-      return <li key={index}>{item.comment}</li>
-    }) : "There are no comment.. add one"
+renderNormal() {
+  let comments = this.state.comments ? this.state.comments.map((item, index) => {
+    return <li key={index}>{item.comment}</li>
+  }) : "There are no comment.. add one"
 
 // if user click on write commnet this will render and save and go back to the next return
-    if (this.state.renderCom1) {
-      return (
-        <div>
-          <div className="card text-white color my-5 py-4 text-center">
-            <div className="card-body">
-              <h1 className="text-white m-0">What our customers says about this tour guy</h1>
-              <ul>
-                {comments}
-              </ul>
-              <Form className="SignUp" onSubmit={this.onsubmitTheStateToPosted}>
-                <FormGroup >
-                  <Input type="textarea" name="comment" id="exampleText" placeholder="Write your comment here" onChange={this.changeTheStateForform} />
-                  <Button onClick={this.saveCom}>  <Button onClick={this.onsubmitTheStateToPosted}>why ---- comment<img src={'https://i.postimg.cc/3NQ9Fmr5/blog.png'} width="30" height="30" /></Button> </Button>
-                </FormGroup>
-              </Form>
-            </div>
+  if (this.state.renderCom1) {
+    return (
+      <div>
+        <div className="card text-white color my-5 py-4 text-center">
+          <div className="card-body">
+            <h1 className="text-white m-0">What our customers says about this tour guy</h1>
+            <ul>
+              {comments}
+            </ul>
+            <Form className="SignUp" onSubmit={this.onsubmitTheStateToPosted}>
+              <FormGroup >
+                <Input type="textarea" name="comment" id="exampleText" placeholder="Write your comment here" onChange={this.changeTheStateForform} />
+                <Button onClick={this.saveCom}>  <Button onClick={this.onsubmitTheStateToPosted}>why ---- comment<img src={'https://i.postimg.cc/3NQ9Fmr5/blog.png'} width="30" height="30" /></Button> </Button>
+              </FormGroup>
+            </Form>
           </div>
         </div>
-      )
-    }
+      </div>
+    )
+  }
+  // retrun only the data in the backend and display
+  else {
+
+    return (
+      <div>
+        <div className="TourGuyProfileCont">
+          <div className="col-lg-5">
+            <img className="TourGuyImg" src={this.state.image} alt="Avatar" width="300" height="300" />
+          </div>
+          <div className="media-body">
+            <h2 > {this.state.firstName + " " + this.state.lastName} </h2>
+            <Rater total={5} rating={this.state.rate / this.state.raters} style={{ cursor: 'pointer' }} onRate={(rating) => { this.setState((prev) => ({ raters: prev.raters + 1, rate: rating.rating + prev.rate })); }} />
+            {this.showRate()}
+            <p><strong>About me: {this.state.AboutMe}</strong></p>
+            <p><strong>Price: {this.state.price}</strong></p>
+            <p><strong>City: {this.state.city}</strong></p>
+          </div>
+          <div className='BookRateCont'>
+            <br /><DatePicker selected={this.state.startDate} onChange={this.handleChange} />
+            <div><Button onClick={this.onsubmitTheStateToBook} size="sm" > Book </Button></div>
+            <Button variant="outline-primary" onClick={this.edit}>Edit Profile</Button>
+            <Button variant="outline-primary" onClick={this.adding}>Add package</Button>
+          </div>
+        </div>
+
+        <div className='PackagesCont'>
+          <h1>Packages</h1>
+        </div>
+
+        <Container className='PackagesCont'>
+          <Row>
+            {/* render the list of city generated in the render method above */}
+            {/* {this.DisplayAllPackages()} */}
+
+            <div>
+      <div className='ContainerHomeCity'>
+        {this.state.name.map((n, index) => (
+          <div className="col mb-4">
+            <div>
+              <Card style={{ width: '15rem', margin: '2px', marginBottom: '30px' }} className="cardHov">
+                <Card.Img variant="top" src={this.state.packImage[index]} width="250" height="250" />
+                <Card.Body>{this.state.name[index]} &nbsp; <img src={'https://i.postimg.cc/cHtxQ60w/tour.png'} width="30" height="30" /></Card.Body>
+                <Card.Body>
+                  <span></span>
+                  <Card.Body>{this.state.description[index]}</Card.Body>
+                  <button onClick={() => this.deletePack(this.state.packId[index])}>Delete this package</button>
+                </Card.Body>
+              </Card>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+          </Row>
+        </Container>
+        {/* COMMENT CONTAINER */}
+        <div className="card text-white color my-5 py-4 text-center">
+          <div className="card-body">
+            <h1 className="text-white m-0">What our customers says about this tour guy</h1>
+            <ul>
+              {comments}
+            </ul>
+            {/* <Form className="SignUp" onSubmit={this.onsubmitTheStateToPosted}> */}
+              {/* <FormGroup > */}
+                {/* <Input type="textarea" name="comment" id="exampleText" placeholder="Write your comment here" onChange={this.changeTheStateForform} /> */}
+                <Button onClick={this.bNormalRen}>comment<img src={'https://i.postimg.cc/3NQ9Fmr5/blog.png'} width="30" height="30" /></Button>
+              {/* </FormGroup> */}
+            {/* </Form> */}
+          </div>
+        </div>
+      </div>
+    );
+  }
+}
 
 
+
+
+  // review 
     renderAdd() {
         const style = {
             height: '100vh',
@@ -574,7 +666,7 @@ axios.get("http://localhost:7000/api/t-users/" + this.state.Tid + "/packages")
                     </Row>
                     <Button variant="outline-warning" onClick={this.saveAdding}>Save</Button>
                 </Form>
-=======
+
     // retrun only the data in the backend and display
     else {
 
