@@ -66,9 +66,13 @@ class NavbarMain extends React.Component {
             <NavbarBrand><div className="NavLink">|</div></NavbarBrand>
             <NavbarBrand>{(this.state.logedin && this.state.tourType == "regUser") ? <Link to="/EditRUserPrpfile" className="NavLink">Edit Profile</Link> : ""}</NavbarBrand>
             {/* switch login and out */}
+
             <NavbarBrand><div className="NavLink">|</div></NavbarBrand>
             <NavbarBrand> <Link to="/manageBooking" className="NavLink">My booking</Link> </NavbarBrand>
             <NavbarBrand><div className="NavLink">|</div></NavbarBrand>
+
+//             <NavbarBrand> {this.state.logedin ?<Link to="/manageBooking" className="NavLink">manage my booking</Link> : ""}</NavbarBrand>
+
             <NavbarBrand > {this.state.logedin ? <Link to="/" className="NavLink" onClick={this.logout}>Sign Out</Link> : <Link to="/SignIn" className="NavLink">Sign In</Link>} </NavbarBrand>
           </Container>
         </Navbar>
