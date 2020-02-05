@@ -67,6 +67,7 @@ class TourGuyProfile extends Component {
     this.setState({ addingPack: true });
     alert("now addingPack");
   }
+  
 
   saveAdding() {
     this.setState({ addingPack: false });
@@ -175,7 +176,12 @@ componentDidUpdate(){
       axios.post("http://localhost:7000/api/r-booking/" + this.state.Tid + "/" + this.state.id + "/" + datetoB, this.state)
         .then(
           (res) => {
-            console.log(res)
+            if(res.data == "Book is made successfully"){
+              alert("Book is made successfully");
+            }else{
+              alert("Book can not made because this date is already reserved");
+            }
+            console.log(res.data)
           })
         .catch(err => console.log(err))
     }
@@ -505,66 +511,6 @@ componentDidUpdate(){
       </div>
     );
   }
-
-  renderNormal() {
-    console.log(this.state.rate);
-    console.log(this.state.raters);
-    let comments = this.state.comments ? this.state.comments.map((item, index) => {
-      return <li key={index}>{item.comment}</li>
-    }) : "www"
-
-    return (
-      <div>
-        <br /><br /><br />
-        <article className="box media">
-          <div className="media-left">
-            <div className="col-lg-7">
-              <img className="img-fluid rounded mb-4 mb-lg-0" src={this.state.image} alt="" />
-            </div>
-          </div>
-          <div className="media-content">
-            <h2> {this.state.firstName + " " + this.state.lastName} </h2>
-            <p><strong>About me: {this.state.AboutMe}</strong></p>
-            <p><strong>Price: {this.state.price}</strong></p>
-            <p><strong>City: {this.state.city}</strong></p>
-          </div>
-          <div classNmae="media-right">
-            <Button variant="outline-primary" onClick={this.edit}>Edit Profile</Button>
-            <Button variant="outline-primary" onClick={this.adding}>Add package</Button>
-          </div>
-        </article>
-
-        <Rater total={5} rating={this.state.rate / this.state.raters} style={{ cursor: 'pointer' }}
-          onRate={(rating) => { this.setState((prev) => ({ raters: prev.raters + 1, rate: rating.rating + prev.rate }));}} />
-        {this.showRate()}
-
-        <br /><DatePicker selected={this.state.startDate} onChange={this.handleChange} />
-        <div><Button onClick={this.onsubmitTheStateToBook} size="sm" > Book </Button></div>
-
-        <div className="card text-white color my-5 py-4 text-center">
-          <div className="card-body">
-            <h1 className="text-white m-0">What our customers says about this tour guy</h1>
-            <ul>
-              {comments}
-            </ul>
-            <Form className="SignUp" onSubmit={this.onsubmitTheStateToPosted}>
-              <FormGroup >
-                <Input type="textarea" name="comment" id="exampleText" placeholder="Write your comment here" onChange={this.changeTheStateForform} />
-                <Button onClick={this.onsubmitTheStateToPosted}>Add comment<img src={'https://i.postimg.cc/3NQ9Fmr5/blog.png'} width="30" height="30" /></Button>
-              </FormGroup>
-            </Form>
-          </div>
-        </div>
-        <Container >
-          <Row className='Cont'>
-            {this.DisplayAllPackages()}
-          </Row>
-        </Container>
-        {/* /.container */}
-      </div>
-    );
-  }
-
 
   render() {
     if (this.state.editing)
