@@ -15,6 +15,7 @@ import { storage } from '../firebase';
 import Home from './Home'
 
 class TourGuyProfile extends Component {
+
   constructor(props) {
     super(props);
     this.state = {
@@ -105,17 +106,18 @@ class TourGuyProfile extends Component {
 
   componentDidMount() {
 //this to make sure it has token and apply the following
-    this.setState({
-      logedin: true,
-      tourType:
+      localStorage.usertoken ?
+      this.setState({ logedin: true, 
+        tourType: 
         jwt_decode(localStorage.usertoken).user.tourType,
-      user:
-        jwt_decode(localStorage.usertoken),
-      id:
-        jwt_decode(localStorage.usertoken).user._id
-    })
-    //  }  
-    this.setState({ logedin: false })
+        user: 
+        jwt_decode(localStorage.usertoken) ,
+        id: 
+        jwt_decode(localStorage.usertoken).user._id })
+      :
+        this.setState({ logedin: false })
+    
+    
 // extract the token and get he user id 
     this.setState({ user: jwt_decode(localStorage.usertoken) })
     axios.get(`http://localhost:7000/api/t-user/` + this.state.Tid)
@@ -187,6 +189,22 @@ axios.get("http://localhost:7000/api/t-users/" + this.state.Tid + "/packages")
     if (this.state.startDate == null) {
       alert("please select date")
     }
+
+    // Add packages 
+    onsubmitTheStateToAdd = () => {
+        axios.post("http://localhost:7000/api/t-users/" + this.state.Tid + "/packages", this.state)
+            .then((res) => {
+                console.log("what pack do u have ", res)
+            }
+            )
+            .catch(err => console.log(err))
+    }
+    // EDIT PROFILE 
+    onsubmitTheStateToEdit = () => {
+        axios.put("http://localhost:7000/api/t-user_edit/" + this.state.Tid, this.state)
+            .then((res) => {
+                console.log("what data do u have ", res)
+
     else {
       var datetoB = this.state.startDate.toDateString();
       axios.post("http://localhost:7000/api/r-booking/" + this.state.Tid + "/" + this.state.id + "/" + datetoB, this.state)
@@ -196,6 +214,7 @@ axios.get("http://localhost:7000/api/t-users/" + this.state.Tid + "/packages")
               alert("Book is made successfully");
             }else{
               alert("Book can not made because this date is already reserved");
+
             }
             console.log(res.data)
           })
@@ -273,6 +292,50 @@ axios.get("http://localhost:7000/api/t-users/" + this.state.Tid + "/packages")
     }
   }
 
+    //img pack
+    handleChangeImagePack = e => {
+      if (e.target.files[0]) {
+        const packImage = e.target.files[0];
+        this.setState(() => ({ packImage }));
+      }
+    }
+
+    handleUploadPack = () => {
+      console.log("handleupload2");
+      const { packImage } = this.state;
+      const uploadTask = storage.ref(`images/${packImage.name}`).put(packImage);
+      uploadTask.on('state_changed',
+        (snapshot) => {
+          // progrss function ....
+          const progress = Math.round((snapshot.bytesTransferred / snapshot.totalBytes) * 100);
+          this.setState({ progress });
+        },
+        (error) => {
+          // error function ....
+          console.log(error);
+        },
+        () => {
+          // complete function ....
+          storage.ref('images').child(packImage.name).getDownloadURL().then(url => {
+            console.log(url);
+            this.setState({ packImage: url });
+            this.setState({ url: url });
+          })
+        });
+    }
+
+    deletePack = (PackidTodelete) => {
+        if (this.state.tourType === "tourUser") {
+            axios.put(`http://localhost:7000/api/deleteOnePackig/` + PackidTodelete , {id :this.state.Tid})
+                .then(response => {
+                    console.log(response);
+                    if(response.data.msg==="the packig has been removed !!!")
+                    {
+                      alert("the packig has been removed")
+                    }
+                  });
+        }
+      
   handleUpload = () => {
     const { image } = this.state;
     const uploadTask = storage.ref(`images/${image.name}`).put(image);
@@ -342,6 +405,7 @@ axios.get("http://localhost:7000/api/t-users/" + this.state.Tid + "/packages")
 
 
 
+
 // render only the Edit page
   renderEdit() {
     const style = {
@@ -370,6 +434,7 @@ axios.get("http://localhost:7000/api/t-users/" + this.state.Tid + "/packages")
                   }} />
                   <br />
                   <img src={this.state.url || 'http://via.placeholder.com/400x300'} alt="Uploaded images" height="300" width="400" />
+
                 </div>
               </FormGroup>
             </Col>
@@ -458,6 +523,58 @@ axios.get("http://localhost:7000/api/t-users/" + this.state.Tid + "/packages")
         </div>
       )
     }
+
+
+    renderAdd() {
+        const style = {
+            height: '100vh',
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            justifyContent: 'center'
+        };
+        return (
+            <div className="central">
+                <h2 className="title">Add Package </h2>
+                <Form>
+                    <Row>
+                        <Col>
+                            <FormGroup className="col-md-10">
+                                <Label for="exampleFile">Package Picture</Label>
+                                <Col>
+                                    <FormGroup tag="fieldset">
+                                        <div style={style}>
+                                            <progress value={this.state.progress} max="100" />
+                                            <br />
+                                            <input type="file" name="packImage" onChange={(e) => {
+                                                this.handleChangeImagePack(e)
+                                                setTimeout(() => {
+                                                    this.handleUploadPack()
+                                                }, 1000);
+                                            }} />
+                                            <br />
+                                            <img src={this.state.url || 'http://via.placeholder.com/400x300'} alt="Uploaded images" height="300" width="400" />
+                                        </div>
+                                    </FormGroup>
+                                </Col>
+                            </FormGroup>
+                        </Col>
+                        <Col>
+                            <FormGroup className="col-md-10">
+                                <Label for="Name">Name: </Label>
+                                <Input type="text" className="input" name="name" onChange={this.changeTheStateForform} />
+                            </FormGroup>
+                        </Col>
+                        <Col>
+                            <FormGroup className="col-md-10">
+                                <Label for="Description">Description: </Label>
+                                <Input type="textarea" className="input" name="description" onChange={this.changeTheStateForform} />
+                            </FormGroup>
+                        </Col>
+                    </Row>
+                    <Button variant="outline-warning" onClick={this.saveAdding}>Save</Button>
+                </Form>
+=======
     // retrun only the data in the backend and display
     else {
 
@@ -526,6 +643,7 @@ axios.get("http://localhost:7000/api/t-users/" + this.state.Tid + "/packages")
                   <Button onClick={this.bNormalRen}>comment<img src={'https://i.postimg.cc/3NQ9Fmr5/blog.png'} width="30" height="30" /></Button>
                 {/* </FormGroup> */}
               {/* </Form> */}
+
             </div>
           </div>
         </div>
@@ -534,71 +652,7 @@ axios.get("http://localhost:7000/api/t-users/" + this.state.Tid + "/packages")
   }
 
 
-  renderAdd() {
-    const style = {
-      height: '100vh',
-      display: 'flex',
-      flexDirection: 'column',
-      alignItems: 'center',
-      justifyContent: 'center'
-    };
-    return (
-
-      <div className="AddPackageCont">
-        <h2 className="title">Add Package </h2>
-        <br />
-        <Form>
-          <Row>
-            <Col>
-              <FormGroup className="col-md-10">
-
-                <Row>
-                  <Label for="exampleFile">Package Picture</Label>
-                </Row>
-                <Row>
-                  <progress value={this.state.progress} max="100" />
-                </Row>
-                <br />
-                <Row>
-                  <input type="file" name="packImage" onChange={(e) => {
-                    this.handleChangeImagePack(e)
-                    setTimeout(() => {
-                      this.handleUploadPack()
-                    }, 1000);
-                  }} />
-                </Row>
-                <br />
-                <Row>
-                  <img src={this.state.url || 'http://via.placeholder.com/200x150'} alt="Uploaded images" height="150" width="200" />
-                </Row>
-
-              </FormGroup>
-            </Col>
-            <Col>
-              <FormGroup className="col-md-10">
-
-                <Row>
-                  <Label for="Name">Name: </Label>
-                  <Input type="text" className="input" name="name" onChange={this.changeTheStateForform} />
-                </Row>
-                <Row>
-                  <Label for="Description">Description: </Label>
-                  <Input type="textarea" name="comment" id="exampleText" name="description" onChange={this.changeTheStateForform} />
-                </Row>
-              </FormGroup>
-            </Col>
-          </Row>
-          <FormGroup className="col-md-10">
-            <Row>
-              <Col><div></div></Col>
-              <Col> <Button variant="outline-warning" onClick={this.saveAdding}>Save</Button></Col>
-            </Row>
-          </FormGroup>
-
-        </Form>
-      </div>
-    );
-  }
+  
 
 
 

@@ -13,40 +13,46 @@ class Booking extends Component {
     super(props);
     this.state = {
       id: this.props.match.params.id,
-      x: localStorage.getItem('usertoken'),
-      user: "",
+      
       tourGuy: [],
       regUser: [],
       date: [],
-      id: []
+      bookid: []
     }
   }
   componentDidMount() {
-    // console.log("x"+this.state.x)
-    this.setState({ user: jwt_decode(this.state.x) })
+    localStorage.usertoken ?
+      this.setState({ logedin: true, 
+        tourType: 
+        jwt_decode(localStorage.usertoken).user.tourType,
+        user: 
+        jwt_decode(localStorage.usertoken) ,
+        id: 
+        jwt_decode(localStorage.usertoken).user._id })
+      :
+        this.setState({ logedin: false })
   }
 
   onsubmitBook = () => {
-    console.log(this.state.user.user.firstName + " " + this.state.user.user.lastName)
-    if (this.state.user.user.tourType === "regUser") {
-      axios.get(`http://localhost:7000/api/r-booking/` + this.state.user.user._id)
+    if (this.state.tourType === "regUser") {
+      axios.get(`http://localhost:7000/api/r-booking/` + this.state.id)
         .then(response => {
           console.log(response);
           for (let i in response.data) {
-            this.setState({ id: this.state.id.concat(response.data[i]._id) })
+            this.setState({ bookid: this.state.bookid.concat(response.data[i]._id) })
             this.setState({ tourGuy: this.state.tourGuy.concat(response.data[i].tourGuy) })
             this.setState({ date: this.state.date.concat(response.data[i].date) })
           }
         });
     }
     //tourGuy
-    else if (this.state.user.user.tourType === "tourUser") {
-      axios.get(`http://localhost:7000/api/t-booking/` + this.state.user.user._id)
+    else if (this.state.tourType === "tourUser") {
+      axios.get(`http://localhost:7000/api/t-booking/` + this.state.id)
         .then(response => {
           console.log(response);
           for (let i in response.data) {
             // console.log("i am in for2")
-            this.setState({ id: this.state.id.concat(response.data[i]._id) })
+            this.setState({ bookid: this.state.bookid.concat(response.data[i]._id) })
             this.setState({ regUser: this.state.regUser.concat(response.data[i].regUser) })
             this.setState({ date: this.state.date.concat(response.data[i].date) })
           }
@@ -61,7 +67,7 @@ class Booking extends Component {
 
 
   cancelBook = (BookidTocancel) => {
-    if (this.state.user.user.tourType === "regUser") {
+    if (this.state.tourType === "regUser") {
       console.log(BookidTocancel + "BookidTocancel")
       axios.delete(`http://localhost:7000/api/r-booking/delete/` + BookidTocancel)
         .then(response => {
@@ -70,7 +76,7 @@ class Booking extends Component {
     }
 
     //tourGuy
-    else if (this.state.user.user.tourType === "tourUser") {
+    else if (this.state.tourType === "tourUser") {
       console.log(BookidTocancel + "BookidTocancel")
       axios.delete(`http://localhost:7000/api/t-booking/delete/` + BookidTocancel)
         .then(response => {
@@ -112,7 +118,7 @@ class Booking extends Component {
                 <p>{this.state.tourGuy[index]}</p>
                 <p>{this.state.regUser[index]}</p>
                 <p>{this.state.date[index]}</p>
-                <button onClick={() => this.cancelBook(this.state.id[index])}>Cancel this book</button>
+                <button onClick={() => this.cancelBook(this.state.bookid[index])}>Cancel this book</button>
               </div>
             </div>
           ))}
