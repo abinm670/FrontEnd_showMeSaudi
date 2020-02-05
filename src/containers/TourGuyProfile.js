@@ -12,7 +12,6 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import 'react-phone-number-input/style.css';
 import ReactPhoneInput from "react-phone-input-2";
-import d from "../img/d.png"
 import { storage } from '../firebase';
 
 class TourGuyProfile extends Component {
@@ -36,13 +35,10 @@ class TourGuyProfile extends Component {
             startDate: new Date(),
             editing: false,
             saveAdding: false,
-            //user: "",
             packImage: [],
             addingPack: false,
             save: false,
-            isTouGuy: false,
             logedin: false
-
         }
         this.edit = this.edit.bind(this);
         this.save = this.save.bind(this);
@@ -87,16 +83,19 @@ class TourGuyProfile extends Component {
     }
 
     componentDidMount() {
-      localStorage.usertoken ? 
-      this.setState({ logedin: true, tourType: 
+      //if (typeof localStorage.usertoken  == 'string')
+      
+      localStorage.usertoken ?
+      this.setState({ logedin: true, 
+        tourType: 
         jwt_decode(localStorage.usertoken).user.tourType,
         user: 
         jwt_decode(localStorage.usertoken) ,
         id: 
-        jwt_decode(localStorage.usertoken).user._id }) : 
+        jwt_decode(localStorage.usertoken).user._id })
+      :
         this.setState({ logedin: false })
 
-        this.setState({ user: jwt_decode(localStorage.usertoken) })
         axios.get(`http://localhost:7000/api/t-user/` + this.state.Tid)
             .then(response => {
                 //console.log(response);
@@ -268,7 +267,8 @@ class TourGuyProfile extends Component {
         //tourGuy
         if (this.state.tourType === "tourUser") {
             console.log(PackidTodelete + "PackidTodelete")
-            axios.delete(`http://localhost:7000/api/t-packages/delete/` + PackidTodelete)
+            console.log(this.state.Tid)
+            axios.put(`http://localhost:7000/api/deleteOnePackig/` + PackidTodelete , {id :this.state.Tid})
                 .then(response => {
                     console.log(response);
                 });
@@ -378,16 +378,17 @@ class TourGuyProfile extends Component {
                         <p><strong>City: {this.state.city}</strong></p>
                     </div>
                     <div classNmae="media-right">
-                        <Button variant="outline-primary" onClick={this.edit}>Edit Profile</Button>
-                        <Button variant="outline-primary" onClick={this.adding}>Add package</Button>
+                    {(this.state.logedin && this.state.tourType == "tourUser"&&this.state.id==this.state.Tid) ?<Button variant="outline-primary" onClick={this.edit}>Edit Profile</Button>:""}
+                    {(this.state.logedin && this.state.tourType == "tourUser"&&this.state.id==this.state.Tid) ?<Button variant="outline-primary" onClick={this.adding}>Add package</Button>:""}
                     </div>
                 </article>
 
                 <Rater total={5} rating={this.state.rate / this.state.raters} style={{ cursor: 'pointer' }} onRate={(rating) => { this.setState((prev) => ({ raters: prev.raters + 1, rate: rating.rating + prev.rate })); }} />
                 {this.showRate()}
 
-                <br /><DatePicker selected={this.state.startDate} onChange={this.handleChange} />
-                <div><Button onClick={this.onsubmitTheStateToBook} size="sm" > Book </Button></div>
+                <br/>
+                {(this.state.logedin && this.state.tourType == "regUser") ?<DatePicker selected={this.state.startDate} onChange={this.handleChange} />:""}
+                {(this.state.logedin && this.state.tourType == "regUser") ?<div><Button onClick={this.onsubmitTheStateToBook} size="sm" > Book </Button></div>:""}
 
                 <div className="card text-white color my-5 py-4 text-center">
                     <div className="card-body">
@@ -479,13 +480,10 @@ class TourGuyProfile extends Component {
 
 
     render() {
-      console.log(this.state.tourType)
         if (this.state.editing)
             return this.renderEdit();
         else if (this.state.addingPack)
             return this.renderAdd();
-            // else if(!this.state.logedin)
-            // return this.renderNormal();
         else
             return this.renderNormal();
     }

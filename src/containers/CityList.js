@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { Card } from 'react-bootstrap/';
 import guide from '../DB'; //Import the file where the data is stored.
-import ListTourGuyInCity from './ListTourGuyInCity';
 import TourGuys from './TourGuys';
 import { Container, Row} from 'react-bootstrap/';
 import {
@@ -27,11 +26,9 @@ class CityList extends Component {
            <div className='ContainerHomeCity'>
                 <Card style={{ width: '15rem', margin: '2px', marginBottom: '30px' }} className="cardHov">
                     {/* Add onClick event handler to the name and an image of the place */}
-                    <Card.Img variant="top" src={item.imgSrc} width="250" height="250" />
+                    <Link to={"/TourGuys/"+ item.city}><Card.Img variant="top" src={item.imgSrc} width="250" height="250" /></Link>
                     <Card.Body>
-                    {/* <button onClick={() => this.setDisplayItem(item.city)}> {item.city} </button> */}
-                    {/* <Link to="/TourGuys">{item.city}</Link> */}
-                    <Link to={"/TourGuys/"+ item.city}> {item.city} </Link>
+                   <Link to={"/TourGuys/"+ item.city}> {item.city} </Link>
                     </Card.Body>
                 </Card>
             </div>
