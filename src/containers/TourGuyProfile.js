@@ -117,7 +117,7 @@ class TourGuyProfile extends Component {
 
                 for (let i in res.data) {
                     this.setState({ name: this.state.name.concat(res.data[i].name) })
-                    this.setState({ packImage: this.state.packImage.concat(res.data[i].image) })
+                    this.setState({ packImage: this.state.packImage.concat(res.data[i].packImage) })
                     this.setState({ description: this.state.description.concat(res.data[i].description) })
                     this.setState({ packId: this.state.packId.concat(res.data[i]._id) })
                 }
@@ -222,37 +222,37 @@ class TourGuyProfile extends Component {
             });
     }
 
-    // //img pack
-    // handleChangeImagePack = e => {
-    //   if (e.target.files[0]) {
-    //     const packImageUpload = e.target.files[0];
-    //     this.setState(() => ({ packImageUpload }));
-    //   }
-    // }
+    //img pack
+    handleChangeImagePack = e => {
+      if (e.target.files[0]) {
+        const packImage = e.target.files[0];
+        this.setState(() => ({ packImage }));
+      }
+    }
 
-    // handleUploadPack = () => {
-    //   console.log("handleupload2");
-    //   const { packImageUpload } = this.state;
-    //   const uploadTask = storage.ref(`images/${packImageUpload.name}`).put(packImageUpload);
-    //   uploadTask.on('state_changed',
-    //     (snapshot) => {
-    //       // progrss function ....
-    //       const progress = Math.round((snapshot.bytesTransferred / snapshot.totalBytes) * 100);
-    //       this.setState({ progress });
-    //     },
-    //     (error) => {
-    //       // error function ....
-    //       console.log(error);
-    //     },
-    //     () => {
-    //       // complete function ....
-    //       storage.ref('images').child(packImageUpload.name).getDownloadURL().then(url => {
-    //         console.log(url);
-    //         this.setState({ packImage: url });
-    //         this.setState({ url: url });
-    //       })
-    //     });
-    // }
+    handleUploadPack = () => {
+      console.log("handleupload2");
+      const { packImage } = this.state;
+      const uploadTask = storage.ref(`images/${packImage.name}`).put(packImage);
+      uploadTask.on('state_changed',
+        (snapshot) => {
+          // progrss function ....
+          const progress = Math.round((snapshot.bytesTransferred / snapshot.totalBytes) * 100);
+          this.setState({ progress });
+        },
+        (error) => {
+          // error function ....
+          console.log(error);
+        },
+        () => {
+          // complete function ....
+          storage.ref('images').child(packImage.name).getDownloadURL().then(url => {
+            console.log(url);
+            this.setState({ packImage: url });
+            this.setState({ url: url });
+          })
+        });
+    }
 
     deletePack = (PackidTodelete) => {
         //tourGuy
@@ -426,9 +426,9 @@ class TourGuyProfile extends Component {
                                             <progress value={this.state.progress} max="100" />
                                             <br />
                                             <input type="file" name="packImage" onChange={(e) => {
-                                                this.handleChangeImage(e)
+                                                this.handleChangeImagePack(e)
                                                 setTimeout(() => {
-                                                    this.handleUpload()
+                                                    this.handleUploadPack()
                                                 }, 1000);
                                             }} />
                                             <br />
