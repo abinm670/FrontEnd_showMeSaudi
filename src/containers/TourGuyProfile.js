@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { Card } from 'react-bootstrap/';
 // import '../../node_modules/bulma/css/bulma.css'
-import guide from '../DB' //Import the file where the data is stored.
 import { Link } from 'react-router-dom';
 import { Container, Row, Col, Button } from 'react-bootstrap/';
 import { Form, FormGroup, CustomInput, Label, Input, FormText } from 'reactstrap';
@@ -12,7 +11,6 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import 'react-phone-number-input/style.css';
 import ReactPhoneInput from "react-phone-input-2";
-import d from "../img/d.png"
 import { storage } from '../firebase';
 
 class TourGuyProfile extends Component {
@@ -42,6 +40,7 @@ class TourGuyProfile extends Component {
       delete: false, 
       isTouGuy: false,
       logedin: false
+
     }
     this.edit = this.edit.bind(this);
     this.save = this.save.bind(this);
@@ -100,20 +99,25 @@ class TourGuyProfile extends Component {
 
 
   componentDidMount() {
-    if (typeof localStorage.usertoken  == 'string')
-  { this.setState({ logedin: true, 
+
+    // if (typeof localStorage.usertoken  == 'string')
+  // { 
+    this.setState({ logedin: true, 
      tourType: 
      jwt_decode(localStorage.usertoken).user.tourType,
      user: 
      jwt_decode(localStorage.usertoken) ,
      id: 
      jwt_decode(localStorage.usertoken).user._id })
-   }  
+  //  }  
      this.setState({ logedin: false })
    
 
+
+
     this.setState({ user: jwt_decode(localStorage.usertoken) })
     axios.get(`http://localhost:7000/api/t-user/` + this.state.Tid)
+
       .then(response => {
         //console.log(response);
 
@@ -122,14 +126,19 @@ class TourGuyProfile extends Component {
         this.setState({ city: response.data.city })
         this.setState({ image: response.data.image })
         this.setState({ rate: response.data.rate })
+
+        this.setState({ rate: response.data.raters })
         this.setState({ price: response.data.price })
         this.setState({ AboutMe: response.data.AboutMe })
-        this.setState({ Tid: response.data._id })
+        this.setState({ id: response.data._id })
+
       }).catch((err) => console.log("data has not been recived"));
 
 
     // Comment api
+
     axios.get(`http://localhost:7000/api/t-comment/` + this.state.Tid)
+
       .then(res => {
         this.setState({ comments: res.data })
       })
@@ -138,7 +147,9 @@ class TourGuyProfile extends Component {
       })
 
     //packages
+
     axios.get("http://localhost:7000/api/t-users/" + this.state.Tid + "/packages")
+
       .then(res => {
         console.log(res + "pack")
 
@@ -152,6 +163,7 @@ class TourGuyProfile extends Component {
       .catch((error) => {
         console.log(error)
       })
+
   }
   onsubmitTheStateToPosted = () => {
     var user = jwt_decode(localStorage.usertoken)
@@ -160,6 +172,17 @@ class TourGuyProfile extends Component {
       .catch(err => console.log(err))
     console.log("posted")
   }
+  
+  //updat teh rate 
+componentDidUpdate(){
+  
+    console.log("working "+this.state.rate +this.state.raters)
+    axios.put("http://localhost:7000/api/t-userRate/" + this.props.match.params.id+ "/" + this.state.rate + "/" + this.state.raters)
+  .then((res) => {
+    console.log("what data do u have ", res)
+  })
+  .catch(err => console.log(err))
+}
 
   //Booking
   onsubmitTheStateToBook = () => {
@@ -466,6 +489,7 @@ onsubmitTheStateToDelete = () => {
       justifyContent: 'center'
     };
     return (
+
       <div className="AddPackageCont">
         <h2 className="title">Add Package </h2>
         <br />
@@ -473,6 +497,7 @@ onsubmitTheStateToDelete = () => {
           <Row>
             <Col>
               <FormGroup className="col-md-10">
+
                 <Row>
                   <Label for="exampleFile">Package Picture</Label>
                 </Row>
@@ -492,10 +517,12 @@ onsubmitTheStateToDelete = () => {
                 <Row>
                   <img src={this.state.url || 'http://via.placeholder.com/200x150'} alt="Uploaded images" height="150" width="200" />
                 </Row>
+
               </FormGroup>
             </Col>
             <Col>
               <FormGroup className="col-md-10">
+
                 <Row>
                   <Label for="Name">Name: </Label>
                   <Input type="text" className="input" name="name" onChange={this.changeTheStateForform} />
@@ -513,10 +540,13 @@ onsubmitTheStateToDelete = () => {
               <Col> <Button variant="outline-warning" onClick={this.saveAdding}>Save</Button></Col>
             </Row>
           </FormGroup>
+
         </Form>
       </div>
     );
   }
+
+
 
 
   render() {
