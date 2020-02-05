@@ -98,8 +98,6 @@ class TourGuyProfile extends Component {
 
         axios.get(`http://localhost:7000/api/t-user/` + this.state.Tid)
             .then(response => {
-                //console.log(response);
-
                 this.setState({ firstName: response.data.firstName })
                 this.setState({ lastName: response.data.lastName })
                 this.setState({ city: response.data.city })
@@ -123,8 +121,6 @@ class TourGuyProfile extends Component {
         //packages
         axios.get("http://localhost:7000/api/t-users/" + this.state.Tid + "/packages")
             .then(res => {
-                console.log(res + "pack")
-
                 for (let i in res.data) {
                     this.setState({ name: this.state.name.concat(res.data[i].name) })
                     this.setState({ packImage: this.state.packImage.concat(res.data[i].packImage) })
@@ -264,14 +260,15 @@ class TourGuyProfile extends Component {
     }
 
     deletePack = (PackidTodelete) => {
-        //tourGuy
         if (this.state.tourType === "tourUser") {
-            console.log(PackidTodelete + "PackidTodelete")
-            console.log(this.state.Tid)
             axios.put(`http://localhost:7000/api/deleteOnePackig/` + PackidTodelete , {id :this.state.Tid})
                 .then(response => {
                     console.log(response);
-                });
+                    if(response.data.msg==="the packig has been removed !!!")
+                    {
+                      alert("the packig has been removed")
+                    }
+                  });
         }
     }
 
@@ -458,7 +455,7 @@ class TourGuyProfile extends Component {
                         <Col>
                             <FormGroup className="col-md-10">
                                 <Label for="Description">Description: </Label>
-                                <Input type="text" className="input" name="description" onChange={this.changeTheStateForform} />
+                                <Input type="textarea" className="input" name="description" onChange={this.changeTheStateForform} />
                             </FormGroup>
                         </Col>
                     </Row>
@@ -501,7 +498,7 @@ class TourGuyProfile extends Component {
                                     <Card.Body>
                                         <span></span>
                                         <Card.Body>{this.state.description[index]}</Card.Body>
-                                        <button onClick={() => this.deletePack(this.state.packId[index])}>Delete this package</button>
+                                        {(this.state.logedin && this.state.tourType == "tourUser"&&this.state.id==this.state.Tid) ?<button onClick={() => this.deletePack(this.state.packId[index])}>Delete this package</button>:""}
                                     </Card.Body>
                                 </Card>
                             </div>
@@ -511,6 +508,5 @@ class TourGuyProfile extends Component {
             </div>
         )
     }
-
 }
 export default TourGuyProfile;
