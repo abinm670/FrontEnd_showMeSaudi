@@ -42,7 +42,7 @@ class CityList extends Component {
             <Row className='Cont'>
                   {/* render the list of city generated in the render method above */}
                   {AllCities}
-                  {this.state.onDisplay}
+                  {/* {this.state.onDisplay} */}
 
             </Row>
         </Container>
