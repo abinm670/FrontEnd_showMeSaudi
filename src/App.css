@@ -394,13 +394,23 @@ Label {
 
 
 /* TourGuy Profile */
-
 .TourGuyProfileCont {
 	padding: 8%  5%;
 	display: flex;
 	justify-content: space-between;
 	background-color: rgba(60, 144, 254, 0.137);
 }
+
+.AddPackageCont {
+	padding: 8%  5%;
+	display: flex;
+	justify-content: center;
+	flex-direction: column;
+	/* justify-content: space-between; */
+	background-color: rgba(60, 144, 254, 0.137);
+}
+
+
 
 .TourGuyImg{
 	border-radius: 50%;
