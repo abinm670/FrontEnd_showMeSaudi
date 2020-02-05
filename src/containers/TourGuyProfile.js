@@ -189,22 +189,6 @@ axios.get("http://localhost:7000/api/t-users/" + this.state.Tid + "/packages")
     if (this.state.startDate == null) {
       alert("please select date")
     }
-
-    // Add packages 
-    onsubmitTheStateToAdd = () => {
-        axios.post("http://localhost:7000/api/t-users/" + this.state.Tid + "/packages", this.state)
-            .then((res) => {
-                console.log("what pack do u have ", res)
-            }
-            )
-            .catch(err => console.log(err))
-    }
-    // EDIT PROFILE 
-    onsubmitTheStateToEdit = () => {
-        axios.put("http://localhost:7000/api/t-user_edit/" + this.state.Tid, this.state)
-            .then((res) => {
-                console.log("what data do u have ", res)
-
     else {
       var datetoB = this.state.startDate.toDateString();
       axios.post("http://localhost:7000/api/r-booking/" + this.state.Tid + "/" + this.state.id + "/" + datetoB, this.state)
@@ -220,6 +204,22 @@ axios.get("http://localhost:7000/api/t-users/" + this.state.Tid + "/packages")
           })
         .catch(err => console.log(err))
     }
+  }
+    // Add packages 
+    onsubmitTheStateToAdd = () => {
+        axios.post("http://localhost:7000/api/t-users/" + this.state.Tid + "/packages", this.state)
+            .then((res) => {
+                console.log("what pack do u have ", res)
+            }
+            )
+            .catch(err => console.log(err))
+    }
+    // EDIT PROFILE 
+    onsubmitTheStateToEdit = () => {
+        axios.put("http://localhost:7000/api/t-user_edit/" + this.state.Tid, this.state)
+            .then((res) => {
+                console.log("what data do u have ", res) 
+    })   
   }
   // Add packages 
   onsubmitTheStateToAdd = () => {
@@ -401,11 +401,7 @@ axios.get("http://localhost:7000/api/t-users/" + this.state.Tid + "/packages")
         });
     }
   }
-
-
-
-
-
+}
 // render only the Edit page
   renderEdit() {
     const style = {
@@ -523,8 +519,7 @@ axios.get("http://localhost:7000/api/t-users/" + this.state.Tid + "/packages")
         </div>
       )
     }
-
-
+}
     renderAdd() {
         const style = {
             height: '100vh',
@@ -574,7 +569,8 @@ axios.get("http://localhost:7000/api/t-users/" + this.state.Tid + "/packages")
                     </Row>
                     <Button variant="outline-warning" onClick={this.saveAdding}>Save</Button>
                 </Form>
-=======
+                </div>
+        )
     // retrun only the data in the backend and display
     else {
 
@@ -650,12 +646,7 @@ axios.get("http://localhost:7000/api/t-users/" + this.state.Tid + "/packages")
       );
     }
   }
-
-
   
-
-
-
 // 😅😭 this is fav page, we learn a lot here 
 //This part will tell the compiler which one will render based on the user selection
 
