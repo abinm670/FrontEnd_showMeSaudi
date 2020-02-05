@@ -12,6 +12,7 @@ import "react-datepicker/dist/react-datepicker.css";
 import 'react-phone-number-input/style.css';
 import ReactPhoneInput from "react-phone-input-2";
 import { storage } from '../firebase';
+import Home from './Home'
 
 class TourGuyProfile extends Component {
   constructor(props) {
@@ -37,9 +38,10 @@ class TourGuyProfile extends Component {
       packImage: [],
       addingPack: false,
       save: false,
-      delete: false, 
+      delete: false,
       isTouGuy: false,
-      logedin: false
+      logedin: false, 
+      renderCom:false,
 
     }
     this.edit = this.edit.bind(this);
@@ -77,15 +79,19 @@ class TourGuyProfile extends Component {
     //just for testing 
     alert("now saving value ");
   }
-  deleteUser()
-  {
-    this.setState({ deleteUser: false });
-    //call the method below to update and tarnsfer the data to the back-end  
-    this.onsubmitTheStateToDelete()
+  deleteUser() {
+    
+      this.onsubmitTheStateToDelete()
     //just for testing 
     alert("now deleting user ");
-
+    this.setState({ logedin: true })
+    // this.props.history.push("./"); 
+    // <Home><Home/>
+   
+    
   }
+
+  
 
 
   changeTheStateForform = (e) => {
@@ -94,24 +100,26 @@ class TourGuyProfile extends Component {
     })
   }
 
-  
+
 
 
 
   componentDidMount() {
 
     // if (typeof localStorage.usertoken  == 'string')
-  // { 
-    this.setState({ logedin: true, 
-     tourType: 
-     jwt_decode(localStorage.usertoken).user.tourType,
-     user: 
-     jwt_decode(localStorage.usertoken) ,
-     id: 
-     jwt_decode(localStorage.usertoken).user._id })
-  //  }  
-     this.setState({ logedin: false })
-   
+    // { 
+    this.setState({
+      logedin: true,
+      tourType:
+        jwt_decode(localStorage.usertoken).user.tourType,
+      user:
+        jwt_decode(localStorage.usertoken),
+      id:
+        jwt_decode(localStorage.usertoken).user._id
+    })
+    //  }  
+    this.setState({ logedin: false })
+
 
 
 
@@ -172,17 +180,17 @@ class TourGuyProfile extends Component {
       .catch(err => console.log(err))
     console.log("posted")
   }
-  
+
   //updat teh rate 
-componentDidUpdate(){
-  
-    console.log("working "+this.state.rate +this.state.raters)
-    axios.put("http://localhost:7000/api/t-userRate/" + this.props.match.params.id+ "/" + this.state.rate + "/" + this.state.raters)
-  .then((res) => {
-    console.log("what data do u have ", res)
-  })
-  .catch(err => console.log(err))
-}
+  componentDidUpdate() {
+
+    console.log("working " + this.state.rate + this.state.raters)
+    axios.put("http://localhost:7000/api/t-userRate/" + this.props.match.params.id + "/" + this.state.rate + "/" + this.state.raters)
+      .then((res) => {
+        console.log("what data do u have ", res)
+      })
+      .catch(err => console.log(err))
+  }
 
   //Booking
   onsubmitTheStateToBook = () => {
@@ -217,25 +225,25 @@ componentDidUpdate(){
       )
       .catch(err => console.log(err))
 
- 
-      // /api/t-booking/delete/:id'
+
+    // /api/t-booking/delete/:id'
 
   }
 
 
 
-// delete users 
-onsubmitTheStateToDelete = () => {
-  axios.put("http://localhost:7000/t-user/delete/" + this.state.Tid, this.state)
-    .then((res) => {
-      console.log("user been deleted", res)
-    }
-    )
-    .catch(err => console.log(err))
+  // delete users 
+  onsubmitTheStateToDelete = () => {
+    axios.delete("http://localhost:7000/api/t-userD/" + this.state.Tid)
+      .then((res) => {
+        console.log("user been deleted", res)
+      }
+      )
+      .catch(err => console.log(err))
 
-}
+  }
 
-  
+
 
 
 
@@ -246,8 +254,11 @@ onsubmitTheStateToDelete = () => {
     });
   };
 
+
+
   addComment(c) {
-    this.setState({ comment: this.state.comment.push[c] });
+
+    this.setState({renderCom: true})
   }
 
   showRate(e) {
@@ -334,6 +345,27 @@ onsubmitTheStateToDelete = () => {
     }
   }
 
+  // comment render
+  renderCom()
+  {
+    return(
+    <div className="card text-white color my-5 py-4 text-center">
+    <div className="card-body">
+      <h1 className="text-white m-0">What our customers says about this tour guy</h1>
+      <ul>
+        {/* {comments} */}
+      </ul>
+      <Form className="SignUp" onSubmit={this.onsubmitTheStateToPosted}>
+        <FormGroup >
+          <Input type="textarea" name="comment" id="exampleText" placeholder="Write your comment here" onChange={this.changeTheStateForform} />
+          <Button onClick={this.onsubmitTheStateToPosted}>Add comment<img src={'https://i.postimg.cc/3NQ9Fmr5/blog.png'} width="30" height="30" /></Button>
+        </FormGroup>
+      </Form>
+    </div>
+  </div>
+    )
+  }
+
 
   renderEdit() {
     const style = {
@@ -409,9 +441,15 @@ onsubmitTheStateToDelete = () => {
                   defaultValue={this.state.price} />
               </FormGroup>
             </Col>
-            <Button variant="outline-warning" onClick={this.save}> Delete Account </Button>
+
+
+           <Link to="/">
+           <Button variant="outline-warning" onClick={this.deleteUser}> Delete Account </Button>
+           </Link>    
+          
+
           </Row>
-          <Button variant="outline-warning" onClick={this.save}>Save now</Button>
+             <Button variant="outline-warning" onClick={this.save}>Save now</Button>
         </Form>
       </div>
     );
@@ -455,7 +493,7 @@ onsubmitTheStateToDelete = () => {
         <Container className='PackagesCont'>
           <Row>
             {/* render the list of city generated in the render method above */}
-            {this.DisplayAllPackages()}
+            {/* {this.DisplayAllPackages()} */}
           </Row>
         </Container>
 
@@ -551,38 +589,47 @@ onsubmitTheStateToDelete = () => {
 
   render() {
     if (this.state.editing)
+    
       return this.renderEdit();
-    else if (this.state.addingPack)
+    
+      if (this.state.addingPack)
+      
       return this.renderAdd();
-    else
+
+      if(this.state.commentsNew)
+      return this.renderCom()
+
+      else 
       return this.renderNormal();
+    
+
   }
 
 
 
-  DisplayAllPackages() {
-    return (
-      <div>
-        <div className='ContainerHomeCity'>
-          {this.state.name.map((n, index) => (
-            <div className="col mb-4">
-              <div>
-                <Card style={{ width: '15rem', margin: '2px', marginBottom: '30px' }} className="cardHov">
-                  <Card.Img variant="top" src={this.state.packImage[index]} width="250" height="250" />
-                  <Card.Body>{this.state.name[index]} &nbsp; <img src={'https://i.postimg.cc/cHtxQ60w/tour.png'} width="30" height="30" /></Card.Body>
-                  <Card.Body>
-                    <span></span>
-                    <Card.Body>{this.state.description[index]}</Card.Body>
-                    <button onClick={() => this.deletePack(this.state.packId[index])}>Delete this package</button>
-                  </Card.Body>
-                </Card>
-              </div>
-            </div>
-          ))}
-        </div>
-      </div>
-    )
-  }
+  // DisplayAllPackages() {
+  //   return (
+  //     <div>
+  //       <div className='ContainerHomeCity'>
+  //         {this.state.name.map((n, index) => (
+  //           <div className="col mb-4">
+  //             <div>
+  //               <Card style={{ width: '15rem', margin: '2px', marginBottom: '30px' }} className="cardHov">
+  //                 <Card.Img variant="top" src={this.state.packImage[index]} width="250" height="250" />
+  //                 <Card.Body>{this.state.name[index]} &nbsp; <img src={'https://i.postimg.cc/cHtxQ60w/tour.png'} width="30" height="30" /></Card.Body>
+  //                 <Card.Body>
+  //                   <span></span>
+  //                   <Card.Body>{this.state.description[index]}</Card.Body>
+  //                   <button onClick={() => this.deletePack(this.state.packId[index])}>Delete this package</button>
+  //                 </Card.Body>
+  //               </Card>
+  //             </div>
+  //           </div>
+  //         ))}
+  //       </div>
+  //     </div>
+  //   )
+  // }
 
 }
 export default TourGuyProfile;
