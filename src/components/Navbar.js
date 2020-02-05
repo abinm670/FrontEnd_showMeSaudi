@@ -20,9 +20,6 @@ class NavbarMain extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      // isOpen: false,
-      wether: '',
-      icon: '',
       logedin: false
     };
   }

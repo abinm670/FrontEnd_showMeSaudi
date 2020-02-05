@@ -74,6 +74,7 @@ class TourGuyProfile extends Component {
     this.setState({ addingPack: true });
     alert("now addingPack");
   }
+  
 
   // save the aadding product
   saveAdding() {
@@ -191,7 +192,12 @@ axios.get("http://localhost:7000/api/t-users/" + this.state.Tid + "/packages")
       axios.post("http://localhost:7000/api/r-booking/" + this.state.Tid + "/" + this.state.id + "/" + datetoB, this.state)
         .then(
           (res) => {
-            console.log(res)
+            if(res.data == "Book is made successfully"){
+              alert("Book is made successfully");
+            }else{
+              alert("Book can not made because this date is already reserved");
+            }
+            console.log(res.data)
           })
         .catch(err => console.log(err))
     }
@@ -598,6 +604,7 @@ axios.get("http://localhost:7000/api/t-users/" + this.state.Tid + "/packages")
 
 // 😅😭 this is fav page, we learn a lot here 
 //This part will tell the compiler which one will render based on the user selection
+
   render() {
     if (this.state.editing)
 
