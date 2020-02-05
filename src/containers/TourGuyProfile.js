@@ -259,6 +259,7 @@ class TourGuyProfile extends Component {
   addComment(c) {
 
     this.setState({renderCom: true})
+    //okay
   }
 
   showRate(e) {
