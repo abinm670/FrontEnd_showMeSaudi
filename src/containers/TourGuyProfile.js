@@ -40,8 +40,8 @@ class TourGuyProfile extends Component {
       save: false,
       delete: false,
       isTouGuy: false,
-      logedin: false, 
-      renderCom:false,
+      logedin: false,
+      renderCom: false,
 
     }
     this.edit = this.edit.bind(this);
@@ -80,18 +80,18 @@ class TourGuyProfile extends Component {
     alert("now saving value ");
   }
   deleteUser() {
-    
-      this.onsubmitTheStateToDelete()
+
+    this.onsubmitTheStateToDelete()
     //just for testing 
     alert("now deleting user ");
     this.setState({ logedin: true })
     // this.props.history.push("./"); 
     // <Home><Home/>
-   
-    
+
+
   }
 
-  
+
 
 
   changeTheStateForform = (e) => {
@@ -258,7 +258,8 @@ class TourGuyProfile extends Component {
 
   addComment(c) {
 
-    this.setState({renderCom: true})
+    this.setState({ renderCom: true })
+    console.log("hello")
     //okay
   }
 
@@ -347,23 +348,22 @@ class TourGuyProfile extends Component {
   }
 
   // comment render
-  renderCom()
-  {
-    return(
-    <div className="card text-white color my-5 py-4 text-center">
-    <div className="card-body">
-      <h1 className="text-white m-0">What our customers says about this tour guy</h1>
-      <ul>
-        {/* {comments} */}
-      </ul>
-      <Form className="SignUp" onSubmit={this.onsubmitTheStateToPosted}>
-        <FormGroup >
-          <Input type="textarea" name="comment" id="exampleText" placeholder="Write your comment here" onChange={this.changeTheStateForform} />
-          <Button onClick={this.onsubmitTheStateToPosted}>Add comment<img src={'https://i.postimg.cc/3NQ9Fmr5/blog.png'} width="30" height="30" /></Button>
-        </FormGroup>
-      </Form>
-    </div>
-  </div>
+  renderCom() {
+    return (
+      <div className="card text-white color my-5 py-4 text-center">
+        <div className="card-body">
+          <h1 className="text-white m-0">What our customers says about this tour guy</h1>
+          <ul>
+            {/* {comments} */}
+          </ul>
+          <Form className="SignUp" onSubmit={this.onsubmitTheStateToPosted}>
+            <FormGroup >
+              <Input type="textarea" name="comment" id="exampleText" placeholder="Write your comment here" onChange={this.changeTheStateForform} />
+              <Button onClick={this.onsubmitTheStateToPosted}>Add comment<img src={'https://i.postimg.cc/3NQ9Fmr5/blog.png'} width="30" height="30" /></Button>
+            </FormGroup>
+          </Form>
+        </div>
+      </div>
     )
   }
 
@@ -444,13 +444,13 @@ class TourGuyProfile extends Component {
             </Col>
 
 
-           <Link to="/">
-           <Button variant="outline-warning" onClick={this.deleteUser}> Delete Account </Button>
-           </Link>    
-          
+            <Link to="/">
+              <Button variant="outline-warning" onClick={this.deleteUser}> Delete Account </Button>
+            </Link>
+
 
           </Row>
-             <Button variant="outline-warning" onClick={this.save}>Save now</Button>
+          <Button variant="outline-warning" onClick={this.save}>Save now</Button>
         </Form>
       </div>
     );
@@ -590,19 +590,19 @@ class TourGuyProfile extends Component {
 
   render() {
     if (this.state.editing)
-    
+
       return this.renderEdit();
-    
-      if (this.state.addingPack)
-      
+
+    if (this.state.addingPack)
+
       return this.renderAdd();
 
-      if(this.state.commentsNew)
+    if (this.state.commentsNew)
       return this.renderCom()
 
-      else 
+    else
       return this.renderNormal();
-    
+
 
   }
 
