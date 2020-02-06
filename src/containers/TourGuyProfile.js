@@ -164,6 +164,16 @@ class TourGuyProfile extends Component {
         console.log(error)
       })
 
+
+      if(jwt_decode(localStorage.usertoken).user.tourType == "tourUser"){
+        console.log("im in if")
+        this.setState({
+          rateability: false
+        })}else {
+          this.setState({
+          rateability: true
+        })}
+
   }
 
   // store comments in the database
@@ -542,7 +552,10 @@ class TourGuyProfile extends Component {
             </div>
             <div className="media-body">
               <h2 > {this.state.firstName + " " + this.state.lastName} </h2>
-              <Rater total={5} rating={this.state.rate / this.state.raters} style={{ cursor: 'pointer' }} onRate={(rating) => { this.setState((prev) => ({ raters: prev.raters + 1, rate: rating.rating + prev.rate })); }} />
+              {/* <Rater total={5} rating={this.state.rate / this.state.raters} style={{ cursor: 'pointer' }} onRate={(rating) => { this.setState((prev) => ({ raters: prev.raters + 1, rate: rating.rating + prev.rate })); }} /> */}
+              {this.state.rateability?<Rater total={5} rating={this.state.rate / this.state.raters} style={{ cursor: 'pointer' }} onRate={(rating) => { this.setState((prev) => ({ raters: prev.raters + 1, rate: rating.rating + prev.rate })); }} />:
+               <Rater total={5} rating={this.state.rate / this.state.raters}  interactive={false} onRate={(rating) => { this.setState((prev) => ({ raters: prev.raters + 1, rate: rating.rating + prev.rate })); }}  /> }
+              
               {this.showRate()}
               <p><strong>About me: {this.state.AboutMe}</strong></p>
               <p><strong>Price: {this.state.price}</strong></p>
