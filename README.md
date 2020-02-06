@@ -38,6 +38,8 @@ This App will help the user to find a local tour guide, and help the tour guy to
 <br><img src="https://github.com/KOSaber/back-up_FrontEnd_showMeSaudi/blob/khadijah/src/img/10.png" width="450" height="450">
 <br><img src="https://github.com/KOSaber/back-up_FrontEnd_showMeSaudi/blob/khadijah/src/img/11.png" width="450" height="500">
 <br>
+<br>
+
 ## User Stories:
 - [x] Tour guy & regular user can view home page to see all cities that we covered without singin 
 - [x] if clicked on spacific city on home page it will show him/his all tour guys in that city.
@@ -50,6 +52,8 @@ This App will help the user to find a local tour guide, and help the tour guy to
 - [x] Tour guy & regular user have to signin to edit his/him profile
 - [x] regular user can rate tour guy & write comment on his profile . 
 - [x] Tour guy & regular user can contact us and read about us without sign up.
+<br>
+
 ## Future plans:
 - [x] Tour guy must accept or reject reservation. 
 - [x] User can reserve spacific package.  
@@ -57,17 +61,22 @@ This App will help the user to find a local tour guide, and help the tour guy to
 - [x] Add Admin to manage the website.
 - [x] Make payment Transaction.
 - [x] Make chatting between users & tour guys.
+<br>
+
 ## Created by Golden Developers ..
 - Abdullah Binmahfouz.
 - Hanin Nouh.
 - Khadijah Saber.
 - Doaa Turkustani.
-<br>
+<br><br>
+
 ## Git Hub Links: 
 - https://github.com/DoaaMT/Tours
 - https://github.com/KOSaber/showmeSaudi_Front-end
 - https://github.com/abinm670/back-up_FrontEnd_showMeSaudi.
 - https://github.com/abinm670/showmeSaudi_Back-end
-<br> 
+
+<br> <br>
+
 ## Heroku Link: 
 - .
