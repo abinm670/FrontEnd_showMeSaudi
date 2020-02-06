@@ -1,4 +1,5 @@
-# Show Me Saudi .. 
+# Show Me Saudi ..
+
 <br>
 <img src="https://github.com/KOSaber/back-up_FrontEnd_showMeSaudi/blob/khadijah/src/img/home.png">
 <img src="https://github.com/KOSaber/back-up_FrontEnd_showMeSaudi/blob/khadijah/src/img/home2.png">
@@ -20,24 +21,22 @@ This App will help the user to find a local tour guide, and help the tour guy to
 ### Wireframes :
 :point_right: Watch it 
 <br><br>
-<img src="https://github.com/KOSaber/back-up_FrontEnd_showMeSaudi/blob/khadijah/src/img/Image%20from%20iOS%20(1).jpg" width="350" height="450">
+<img src="https://github.com/KOSaber/back-up_FrontEnd_showMeSaudi/blob/khadijah/src/img/Image%20from%20iOS%20(1).jpg" width="350" height="500">
 <br>
 ### Prototypes :
 :point_right: Watch it 
 <br><br>
-<img src="https://github.com/KOSaber/back-up_FrontEnd_showMeSaudi/blob/khadijah/src/img/1.png" width="350" height="450">
-<br>
-<img src="https://github.com/KOSaber/back-up_FrontEnd_showMeSaudi/blob/khadijah/src/img/2.png" width="350" height="450">
-<br><img src="https://github.com/KOSaber/back-up_FrontEnd_showMeSaudi/blob/khadijah/src/img/3.png" width="350" height="450">
-<br><img src="https://github.com/KOSaber/back-up_FrontEnd_showMeSaudi/blob/khadijah/src/img/4.png" width="350" height="450">
-<br><img src="https://github.com/KOSaber/back-up_FrontEnd_showMeSaudi/blob/khadijah/src/img/5.png" width="350" height="450">
-<br><img src="https://github.com/KOSaber/back-up_FrontEnd_showMeSaudi/blob/khadijah/src/img/6.png" width="350" height="450">
-<br><img src="https://github.com/KOSaber/back-up_FrontEnd_showMeSaudi/blob/khadijah/src/img/7.png" width="350" height="450">
-<br><img src="https://github.com/KOSaber/back-up_FrontEnd_showMeSaudi/blob/khadijah/src/img/8.png" width="350" height="450">
-<br><img src="https://github.com/KOSaber/back-up_FrontEnd_showMeSaudi/blob/khadijah/src/img/9.png" width="350" height="450">
-<br><img src="https://github.com/KOSaber/back-up_FrontEnd_showMeSaudi/blob/khadijah/src/img/10.png" width="350" height="450">
-<br>
-<br><img src="https://github.com/KOSaber/back-up_FrontEnd_showMeSaudi/blob/khadijah/src/img/11.png" width="350" height="450">
+<img src="https://github.com/KOSaber/back-up_FrontEnd_showMeSaudi/blob/khadijah/src/img/1.png" width="350" height="500">
+<img src="https://github.com/KOSaber/back-up_FrontEnd_showMeSaudi/blob/khadijah/src/img/2.png" width="350" height="500">
+<br><img src="https://github.com/KOSaber/back-up_FrontEnd_showMeSaudi/blob/khadijah/src/img/3.png" width="500" height="500">
+<br><img src="https://github.com/KOSaber/back-up_FrontEnd_showMeSaudi/blob/khadijah/src/img/4.png" width="500" height="500">
+<br><img src="https://github.com/KOSaber/back-up_FrontEnd_showMeSaudi/blob/khadijah/src/img/5.png" width="500" height="500">
+<br><img src="https://github.com/KOSaber/back-up_FrontEnd_showMeSaudi/blob/khadijah/src/img/6.png" width="500" height="500">
+<br><img src="https://github.com/KOSaber/back-up_FrontEnd_showMeSaudi/blob/khadijah/src/img/7.png" width="500" height="500">
+<br><img src="https://github.com/KOSaber/back-up_FrontEnd_showMeSaudi/blob/khadijah/src/img/8.png" width="500" height="500">
+<br><img src="https://github.com/KOSaber/back-up_FrontEnd_showMeSaudi/blob/khadijah/src/img/9.png" width="500" height="500">
+<br><img src="https://github.com/KOSaber/back-up_FrontEnd_showMeSaudi/blob/khadijah/src/img/10.png" width="500" height="500">
+<br><img src="https://github.com/KOSaber/back-up_FrontEnd_showMeSaudi/blob/khadijah/src/img/11.png" width="500" height="500">
 <br>
 ## User Stories:
 - [x] Tour guy & regular user can view home page to see all cities that we covered without singin 
