@@ -21,6 +21,8 @@ import axios from 'axios'
 // import { Right } from 'react-bootstrap/lib/Media';
 import { storage } from '../firebase';
 
+import Home from '../containers/Home'
+
 class SignUp extends Component {
   constructor(props) {
     super(props);
@@ -72,8 +74,11 @@ class SignUp extends Component {
       .then(res => {
         console.log(res)
         this.setState({ send: true })
+        
       })
       .catch(err => console.log(err))
+
+      
   }
 
   //img
@@ -107,7 +112,7 @@ class SignUp extends Component {
         })
       });
   }
-  render() {
+  render1() {
 
     const style = {
       height: '100vh',
@@ -117,7 +122,7 @@ class SignUp extends Component {
       justifyContent: 'center'
     };
 
-    if (!this.state.send) {
+    
       return (
         <div >
           <br /><br /><br /><br /><br />
@@ -283,14 +288,38 @@ class SignUp extends Component {
         </div>
       );
     }
-    else {
+    renderLog()
+    {
+       
       return (
-        // eslint-disable-next-line react/jsx-no-undef         
-        <SignIn />
+        // eslint-disable-next-line react/jsx-no-undef 
+
+       
+       
+        <div>
+           <br/> <br/> <br/> <br/> <br/> <br/>
+          
+          
+        Thank you for registering with us : Your registeration is completed       
+          
+        
+          <Link to="/SignIn"><Button className='log'>Please click her to sigin in</Button></Link>
+        </div>
       )
     }
-  }
 
+render()
+{
+    if (!this.state.send) 
+    
+
+      return this.render1() 
+      
+      else 
+
+
+    return this.renderLog()   
+}
 }
 
 export default SignUp;

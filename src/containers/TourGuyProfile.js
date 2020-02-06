@@ -337,18 +337,7 @@ axios.get("http://localhost:7000/api/t-users/" + this.state.Tid + "/packages")
         });
     }
 
-    deletePack = (PackidTodelete) => {
-        if (this.state.tourType === "tourUser") {
-            axios.put(`http://localhost:7000/api/deleteOnePackig/` + PackidTodelete , {id :this.state.Tid})
-                .then(response => {
-                    console.log(response);
-                    if(response.data.msg==="the packig has been removed !!!")
-                    {
-                      alert("the packig has been removed")
-                    }
-                  });
-        }
-      }
+    
       
   handleUpload = () => {
     const { image } = this.state;
@@ -406,15 +395,17 @@ axios.get("http://localhost:7000/api/t-users/" + this.state.Tid + "/packages")
   }
 
   deletePack = (PackidTodelete) => {
-    //tourGuy
     if (this.state.tourType === "tourUser") {
-      console.log(PackidTodelete + "PackidTodelete")
-      axios.delete(`http://localhost:7000/api/t-packages/delete/` + PackidTodelete)
-        .then(response => {
-          console.log(response);
-        });
+        axios.put(`http://localhost:7000/api/deleteOnePackig/` + PackidTodelete , {id :this.state.Tid})
+            .then(response => {
+                console.log(response);
+                if(response.data.msg==="the packig has been removed !!!")
+                {
+                  alert("the packig has been removed")
+                }
+              });
     }
-  }
+}
 
 
 
@@ -556,10 +547,11 @@ renderNormal() {
             <p><strong>City: {this.state.city}</strong></p>
           </div>
           <div className='BookRateCont'>
-            <br /><DatePicker selected={this.state.startDate} onChange={this.handleChange} />
-            <div><Button onClick={this.onsubmitTheStateToBook} size="sm" > Book </Button></div>
-            <Button variant="outline-primary" onClick={this.edit}>Edit Profile</Button>
-            <Button variant="outline-primary" onClick={this.adding}>Add package</Button>
+          <br/>
+          {(this.state.logedin && this.state.tourType == "regUser") ?<DatePicker selected={this.state.startDate} onChange={this.handleChange} />:""}
+            {(this.state.logedin && this.state.tourType == "regUser") ?<div><Button onClick={this.onsubmitTheStateToBook} size="sm" > Book </Button></div>:""}
+            {(this.state.logedin && this.state.tourType == "tourUser"&&this.state.id==this.state.Tid) ?<Button variant="outline-primary" onClick={this.edit}>Edit Profile</Button>:""}
+            {(this.state.logedin && this.state.tourType == "tourUser"&&this.state.id==this.state.Tid) ?<Button variant="outline-primary" onClick={this.adding}>Add package</Button>:""}
           </div>
         </div>
 
@@ -583,7 +575,8 @@ renderNormal() {
                 <Card.Body>
                   <span></span>
                   <Card.Body>{this.state.description[index]}</Card.Body>
-                  <button onClick={() => this.deletePack(this.state.packId[index])}>Delete this package</button>
+                  
+                  {(this.state.logedin && this.state.tourType == "tourUser"&&this.state.id==this.state.Tid) ?<button onClick={() => this.deletePack(this.state.packId[index])}>Delete this package</button>:""}
                 </Card.Body>
               </Card>
             </div>
@@ -614,135 +607,71 @@ renderNormal() {
 }
 
 
+renderAdd() {
+  const style = {
+    height: '100vh',
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    justifyContent: 'center'
+  };
+  return (
 
+    <div className="AddPackageCont">
+      <h2 className="title">Add Package </h2>
+      <br />
+      <Form>
+        <Row>
+          <Col>
+            <FormGroup className="col-md-10">
 
-  // review 
-    renderAdd() {
-        const style = {
-            height: '100vh',
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
-            justifyContent: 'center'
-        };
-        return (
-            <div className="central">
-                <h2 className="title">Add Package </h2>
-                <Form>
-                    <Row>
-                        <Col>
-                            <FormGroup className="col-md-10">
-                                <Label for="exampleFile">Package Picture</Label>
-                                <Col>
-                                    <FormGroup tag="fieldset">
-                                        <div style={style}>
-                                            <progress value={this.state.progress} max="100" />
-                                            <br />
-                                            <input type="file" name="packImage" onChange={(e) => {
-                                                this.handleChangeImagePack(e)
-                                                setTimeout(() => {
-                                                    this.handleUploadPack()
-                                                }, 1000);
-                                            }} />
-                                            <br />
-                                            <img src={this.state.url || 'http://via.placeholder.com/400x300'} alt="Uploaded images" height="300" width="400" />
-                                        </div>
-                                    </FormGroup>
-                                </Col>
-                            </FormGroup>
-                        </Col>
-                        <Col>
-                            <FormGroup className="col-md-10">
-                                <Label for="Name">Name: </Label>
-                                <Input type="text" className="input" name="name" onChange={this.changeTheStateForform} />
-                            </FormGroup>
-                        </Col>
-                        <Col>
-                            <FormGroup className="col-md-10">
-                                <Label for="Description">Description: </Label>
-                                <Input type="textarea" className="input" name="description" onChange={this.changeTheStateForform} />
-                            </FormGroup>
-                        </Col>
-                    </Row>
-                    <Button variant="outline-warning" onClick={this.saveAdding}>Save</Button>
-                </Form>
+              <Row>
+                <Label for="exampleFile">Package Picture</Label>
+              </Row>
+              <Row>
+                <progress value={this.state.progress} max="100" />
+              </Row>
+              <br />
+              <Row>
+                <input type="file" name="packImage" onChange={(e) => {
+                  this.handleChangeImagePack(e)
+                  setTimeout(() => {
+                    this.handleUploadPack()
+                  }, 1000);
+                }} />
+              </Row>
+              <br />
+              <Row>
+                <img src={this.state.url || 'http://via.placeholder.com/200x150'} alt="Uploaded images" height="150" width="200" />
+              </Row>
 
-    // retrun only the data in the backend and display
-    else {
+            </FormGroup>
+          </Col>
+          <Col>
+            <FormGroup className="col-md-10">
 
-      return (
-        <div>
-          <div className="TourGuyProfileCont">
-            <div className="col-lg-5">
-              <img className="TourGuyImg" src={this.state.image} alt="Avatar" width="300" height="300" />
-            </div>
-            <div className="media-body">
-              <h2 > {this.state.firstName + " " + this.state.lastName} </h2>
-              <Rater total={5} rating={this.state.rate / this.state.raters} style={{ cursor: 'pointer' }} onRate={(rating) => { this.setState((prev) => ({ raters: prev.raters + 1, rate: rating.rating + prev.rate })); }} />
-              {this.showRate()}
-              <p><strong>About me: {this.state.AboutMe}</strong></p>
-              <p><strong>Price: {this.state.price}</strong></p>
-              <p><strong>City: {this.state.city}</strong></p>
-            </div>
-            <div className='BookRateCont'>
-              <br /><DatePicker selected={this.state.startDate} onChange={this.handleChange} />
-              <div><Button onClick={this.onsubmitTheStateToBook} size="sm" > Book </Button></div>
-              <Button variant="outline-primary" onClick={this.edit}>Edit Profile</Button>
-              <Button variant="outline-primary" onClick={this.adding}>Add package</Button>
-            </div>
-          </div>
+              <Row>
+                <Label for="Name">Name: </Label>
+                <Input type="text" className="input" name="name" onChange={this.changeTheStateForform} />
+              </Row>
+              <Row>
+                <Label for="Description">Description: </Label>
+                <Input type="textarea" name="comment" id="exampleText" name="description" onChange={this.changeTheStateForform} />
+              </Row>
+            </FormGroup>
+          </Col>
+        </Row>
+        <FormGroup className="col-md-10">
+          <Row>
+            <Col><div></div></Col>
+            <Col> <Button variant="outline-warning" onClick={this.saveAdding}>Save</Button></Col>
+          </Row>
+        </FormGroup>
 
-          <div className='PackagesCont'>
-            <h1>Packages</h1>
-          </div>
-
-          <Container className='PackagesCont'>
-            <Row>
-              {/* render the list of city generated in the render method above */}
-              {/* {this.DisplayAllPackages()} */}
-
-              <div>
-        <div className='ContainerHomeCity'>
-          {this.state.name.map((n, index) => (
-            <div className="col mb-4">
-              <div>
-                <Card style={{ width: '15rem', margin: '2px', marginBottom: '30px' }} className="cardHov">
-                  <Card.Img variant="top" src={this.state.packImage[index]} width="250" height="250" />
-                  <Card.Body>{this.state.name[index]} &nbsp; <img src={'https://i.postimg.cc/cHtxQ60w/tour.png'} width="30" height="30" /></Card.Body>
-                  <Card.Body>
-                    <span></span>
-                    <Card.Body>{this.state.description[index]}</Card.Body>
-                    <button onClick={() => this.deletePack(this.state.packId[index])}>Delete this package</button>
-                  </Card.Body>
-                </Card>
-              </div>
-            </div>
-          ))}
-        </div>
-      </div>
-            </Row>
-          </Container>
-          {/* COMMENT CONTAINER */}
-          <div className="card text-white color my-5 py-4 text-center">
-            <div className="card-body">
-              <h1 className="text-white m-0">What our customers says about this tour guy</h1>
-              <ul>
-                {comments}
-              </ul>
-              {/* <Form className="SignUp" onSubmit={this.onsubmitTheStateToPosted}> */}
-                {/* <FormGroup > */}
-                  {/* <Input type="textarea" name="comment" id="exampleText" placeholder="Write your comment here" onChange={this.changeTheStateForform} /> */}
-                  <Button onClick={this.bNormalRen}>comment<img src={'https://i.postimg.cc/3NQ9Fmr5/blog.png'} width="30" height="30" /></Button>
-                {/* </FormGroup> */}
-              {/* </Form> */}
-
-            </div>
-          </div>
-        </div>
-      );
-    }
-  }
-
+      </Form>
+    </div>
+  );
+}
 
   
 
