@@ -1,3 +1,6 @@
+// 
+
+
 import React from "react";
 import { Navbar, NavbarBrand, Container } from "reactstrap";
 import "../App.css";
@@ -14,8 +17,6 @@ import Comment from '../components/Footer'
 import EditRUserPrpfile from '../Register/EditRUserPrpfile'
 import jwt_decode from 'jwt-decode'
 import Booking from '../containers/Booking'
-
-
 class NavbarMain extends React.Component {
   constructor(props) {
     super(props);
@@ -27,11 +28,9 @@ class NavbarMain extends React.Component {
   componentDidMount() {
     this.showLogOut()
     // console.log(jwt_decode(localStorage.usertoken).user.tourType)
-
     localStorage.usertoken ? this.setState({ logedin: true, tourType: jwt_decode(localStorage.usertoken).user.tourType }) : this.setState({ logedin: false })
     console.log(this.state.tourType)
   }
-
   logout = () => {
     window.localStorage.clear();
     this.setState({ logedin: false });
@@ -42,10 +41,8 @@ class NavbarMain extends React.Component {
       logedin: true
     })
   }
-
   render() {
     console.log(this.state.tourType)
-
     return (
       <>
         <Navbar color="faded" dark expand="md" fixed={`top`} className="navDark" >
@@ -54,13 +51,20 @@ class NavbarMain extends React.Component {
           </Container>
           <Container>
             <NavbarBrand> <Link to="/" className="NavLink">Home</Link> </NavbarBrand>
+            <NavbarBrand><div className="NavLink">|</div></NavbarBrand>
             <NavbarBrand> <Link to="/TourGuys" className="NavLink">Tour Guys</Link> </NavbarBrand>
+            <NavbarBrand><div className="NavLink">|</div></NavbarBrand>
             <NavbarBrand> <Link to="/Packages" className="NavLink">Packages</Link> </NavbarBrand>
-            <NavbarBrand> <Link to="/About" className="NavLink">About Us</Link> </NavbarBrand>
-            <NavbarBrand> <Link to="/contact" className="NavLink">Contact</Link> </NavbarBrand>
+            <NavbarBrand><div className="NavLink">|</div></NavbarBrand>
             <NavbarBrand>{(this.state.logedin && this.state.tourType == "regUser") ? <Link to="/EditRUserPrpfile" className="NavLink">Edit Profile</Link> : ""}</NavbarBrand>
             {/* switch login and out */}
-            <NavbarBrand> {this.state.logedin ?<Link to="/manageBooking" className="NavLink">manage my booking</Link> : ""}</NavbarBrand>
+            <NavbarBrand><div className="NavLink">|</div></NavbarBrand>
+            <NavbarBrand> {this.state.logedin ?<Link to="/manageBooking" className="NavLink">My booking</Link> : ""}</NavbarBrand>
+            <NavbarBrand><div className="NavLink">|</div></NavbarBrand>
+            <NavbarBrand> <Link to="/About" className="NavLink">About Us</Link> </NavbarBrand>
+            <NavbarBrand><div className="NavLink">|</div></NavbarBrand>
+            <NavbarBrand> <Link to="/contact" className="NavLink">Contact</Link> </NavbarBrand>
+            <NavbarBrand><div className="NavLink">|</div></NavbarBrand>
             <NavbarBrand > {this.state.logedin ? <Link to="/" className="NavLink" onClick={this.logout}>Sign Out</Link> : <Link to="/SignIn" className="NavLink">Sign In</Link>} </NavbarBrand>
           </Container>
         </Navbar>
@@ -78,9 +82,7 @@ class NavbarMain extends React.Component {
           <Route exact path="/TourGuys/:city" component={TourGuys} />
           <Route path="/EditRUserPrpfile" component={EditRUserPrpfile} />
           <Route path="/manageBooking" component={Booking} />
-
         </div></>
-
     );
   }
 }

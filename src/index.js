@@ -8,6 +8,8 @@ import 'bootstrap/dist/css/bootstrap.css';
 import "mdbreact/dist/css/mdb.css";
 import 'react-rater/lib/react-rater.css'
 
+
+
 ReactDOM.render(<App />, document.getElementById('root'));
 
 // If you want your app to work offline and load faster, you can change

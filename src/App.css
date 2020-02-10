@@ -17,6 +17,44 @@
 
 
 
+.Cont{
+	display: flex;
+	justify-content: center;
+	flex-wrap: wrap;
+	/* flex-direction: column; */
+}
+/* TourGuy Profile */
+.TourGuyProfileCont {
+	padding: 8%  5%;
+	display: flex;
+	justify-content: space-between;
+	background-color: rgba(60, 144, 254, 0.137);
+}
+.AddPackageCont {
+	padding: 8%  5%;
+	display: flex;
+	justify-content: center;
+	flex-direction: column;
+	/* justify-content: space-between; */
+	background-color: rgba(60, 144, 254, 0.137);
+}
+.TourGuyImg{
+	border-radius: 50%;
+	size: 10%;
+}
+.PackagesCont{
+	display: flex;
+	justify-content: center;
+	margin: 5%;
+	color: rgb(9, 53, 90);
+}
+.BookRateCont{
+	display: flex;
+	justify-content: space-between;
+	flex-direction: column;
+}
+
+
 
 .footer{
   position: fixed;

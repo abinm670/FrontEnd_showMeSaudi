@@ -17,10 +17,15 @@ class Booking extends Component {
       tourGuy: [],
       regUser: [],
       date: [],
-      bookid: []
+      bookid: [],
+      buckets:{}
     }
+    this.clear = this.clear.bind()
   }
   componentDidMount() {
+    this.setState({
+      buckets: "delete",
+    })
     localStorage.usertoken ?
       this.setState({ logedin: true, 
         tourType: 
@@ -72,7 +77,10 @@ class Booking extends Component {
       axios.delete(`http://localhost:7000/api/r-booking/delete/` + BookidTocancel)
         .then(response => {
           console.log(response);
+          // window.location.reload(false);
+          
         });
+        
     }
 
     //tourGuy
@@ -96,7 +104,11 @@ class Booking extends Component {
       </div>
     )
   }
-
+clear()
+{
+  window.location.reload(false);
+ 
+}
   DisplayBooks() {
     return (
       <div>
@@ -118,7 +130,7 @@ class Booking extends Component {
                 <p>{this.state.tourGuy[index]}</p>
                 <p>{this.state.regUser[index]}</p>
                 <p>{this.state.date[index]}</p>
-                <button onClick={() => this.cancelBook(this.state.bookid[index])}>Cancel this book</button>
+                <button onClick={this.clear}><button onClick={() => this.cancelBook(this.state.bookid[index])}>Cancel this book</button></button>
               </div>
             </div>
           ))}
