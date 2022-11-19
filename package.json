@@ -27,7 +27,7 @@
     "react-phone-number-input": "^3.0.15",
     "react-rater": "^5.1.1",
     "react-router-dom": "^5.1.2",
-    "react-scripts": "3.3.1",
+    "react-scripts": "5.0.1",
     "reactstrap": "^8.4.0",
     "tsutils": "^3.17.1"
   },
